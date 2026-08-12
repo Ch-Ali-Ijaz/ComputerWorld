@@ -1,0 +1,28 @@
+import validator from "validator";
+import nodemailer from "nodemailer";
+
+export function inputType(value) {
+
+    if (validator.isEmail(value)) {
+        if (value.endsWith("@gmail.com")) {
+            return false;
+        }
+    }
+    else {
+        return true;
+    }
+
+};
+
+export function setupTransport() {
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.APP_PASSWORD
+        }
+    });
+
+    return transporter;
+};

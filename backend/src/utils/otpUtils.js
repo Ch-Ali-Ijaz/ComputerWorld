@@ -18,4 +18,4 @@ export async function generateOtp(email) {
     const computerizedOtp = await newOtp.save();
     return computerizedOtp.OneTimePassword;
 
-}
+};
