@@ -1,7 +1,7 @@
 import User from "../models/User.js"
 import * as userServices from "../services/userServices.js"
 
-// Controller to get all users.
+// ---------------------------------------------------------------------------
 export async function getAllUsers(req, res) {
     try {
         
@@ -11,8 +11,10 @@ export async function getAllUsers(req, res) {
         if(Object.keys(users).length === 0) {
             return res.status(404).json({ message: "No users found." });
         }
+        else{
 
-        return res.status(200).json(users);
+            return res.status(200).json(users);
+        }
 
     } catch (error) {
         console.log("Error in getAllCustomers controller: ", error);
@@ -20,24 +22,26 @@ export async function getAllUsers(req, res) {
     }
 }
 
-// // Controller to get a single user.
-// export async function getUser(req, res) {
-//     try {
-//         const id = req.params.id;
-//         const user = await User.findById(id);
-//         if (!user) {
-//             return res.status(404).json({ message: "User not Found." })
-//         }
+// --------------------------------------------------------------------------
+export async function getUser(req, res) {
+    try {
+        const id = req.params.id;
+        const user = await userServices.getUser(id);
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not Found." })
+        }
+        else{
+            return res.status(200).json(user);
+        }
 
-//         return res.status(200).json(user);
+    } catch (error) {
+        console.log("Error in getCustomer controller: ", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
 
-//     } catch (error) {
-//         console.log("Error in getCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
-
-// // Controller to create a user.
+// ---------------------------------------------------------------------------
 // export async function createUser(req, res) {
 //     try {
 //         const { password, name, email, contact, address, role } = req.body;
@@ -72,7 +76,7 @@ export async function getAllUsers(req, res) {
 //     }
 // }
 
-// // Controller to update a user.
+// ---------------------------------------------------------------------------
 // export async function updateUser(req, res) {
 //     // res.status(200).send("Here you can update the existing users.");
 //     try {
@@ -115,7 +119,7 @@ export async function getAllUsers(req, res) {
 //     }
 // }
 
-// // Controller to delete a user.
+// ---------------------------------------------------------------------------
 // export async function deleteUser(req, res) {
 //     // res.status(200).send("Here you can delete users.");
 //     try {

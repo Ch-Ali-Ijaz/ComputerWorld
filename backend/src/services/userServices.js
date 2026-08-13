@@ -23,21 +23,17 @@ export async function getAllUsers(filterQuery) {
 };
 
 // // -------------------------------------------------------------------------------
-// export async function getUser(req, res) {
-//     try {
-//         const id = req.params.id;
-//         const user = await User.findById(id);
-//         if (!user) {
-//             return res.status(404).json({ message: "User not Found." })
-//         }
+export async function getUser(id) {
+    try {
+        
+        const user = await User.findById(id);
+        return user;
 
-//         return res.status(200).json(user);
-
-//     } catch (error) {
-//         console.log("Error in getCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
+    } catch (error) {
+        console.log("Error in getCustomer service: ", error);
+        throw new Error(error);
+    }
+}
 
 // // -------------------------------------------------------------------------------
 // export async function createUser(req, res) {

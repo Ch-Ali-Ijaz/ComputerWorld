@@ -7,7 +7,7 @@ import {authorizeToLogin} from "../middleware/authorizeMiddleware.js";
 // import {getAllUsers, getUser, createUser, updateUser, deleteUser} from "../controllers/userController.js";
 // Controllers
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
-import { getAllUsers } from "../controllers/userController.js";
+import { getAllUsers, getUser } from "../controllers/userController.js";
 
 // import { getAllProducts, getProduct, findProduct, createProduct, updateProduct, deleteProduct} from "../controllers/productsController.js";
 // import {getAllCarts, getCart, findCart, createCart, updateCart, deleteCart} from "../controllers/cartController.js";
@@ -25,7 +25,7 @@ router.use(authenticate, authorizeToLogin('admin'));
 // User related routes
 
 router.get("/users", getAllUsers);
-// router.get("/users/:id", getUser);
+router.get("/users/:id", getUser);
 // router.post("/users", createUser);
 // router.put("/users/:id", updateUser);
 // router.delete("/users/:id", deleteUser);
