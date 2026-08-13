@@ -1,12 +1,9 @@
-// Libraries
 import { customAlphabet } from "nanoid";
 
-// Models
 import User from "../models/User.js";
 
 const nanoid = customAlphabet("1234567890ABCDEF", 8);
 
-// function to generate user Id
 export function generateUserId(role) {
     let prefix;
     switch (role) {
@@ -25,7 +22,6 @@ export function generateUserId(role) {
     return prefix + nanoid();
 }
 
-// function to validate the role is allowed or not.
 export function validateRole(role) {
 
     const allowedRoles = ["employee", "customer"];
@@ -37,38 +33,42 @@ export function validateRole(role) {
     }
 };
 
-// Function to find User.
-export async function findUser(searchBy, value) {
-
-    let user;
-
-    switch (searchBy) {
-        case "id":
-            user = await User.findOne({ userId: value });
-            break;
-
-        case "email":
-            user = await User.findOne({ userEmail: value });
-            break;
-
-        case "name":
-            user = await User.find({
-                userName: { $regex: value, $options: "i" }
-            });
-            break;
-
-        case "role":
-            user = await User.find({ userRole: value });
-            break;
-
-        case "cnic":
-            user = await User.findOne({ userCNIC: value });
-            break;
-
-        default:
-            throw new Error("Invalid Search."); 
+export async function filterUser(searchBy, value) {
+    try{
+        let user;
+    
+        switch (searchBy) {
+            case "id":
+                user = await User.findOne({ userId: value });
+                break;
+    
+            case "email":
+                user = await User.findOne({ userEmail: value });
+                break;
+    
+            case "name":
+                user = await User.find({
+                    userName: { $regex: value, $options: "i" }
+                });
+                break;
+    
+            case "role":
+                user = await User.find({ userRole: value });
+                break;
+    
+            case "cnic":
+                user = await User.findOne({ userCNIC: value });
+                break;
+    
+            default:
+                throw new Error("Invalid Search."); 
+        }
+    
+        return user;
     }
-
-    return user;
+    catch (error) {
+        console.log("Error in filterUser function: ", error);
+        throw new Error(error);
+    }
 
 };
