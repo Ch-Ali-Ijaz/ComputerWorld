@@ -9,16 +9,16 @@ export async function getAllUsers(req, res) {
         const users = await userServices.getAllUsers(filterQuery);
 
         if(users.length === 0 || users[0] === null) {
-            return res.status(404).json({ message: "No users found." });
+            return res.status(404).json({ code: "NOT_FOUND", message: "No users found." });
         }
         else{
 
-            return res.status(200).json(users);
+            return res.status(200).json({ code: "SUCCESS", users });
         }
 
     } catch (error) {
         console.log("Error in getAllUsers controller: ", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({code: "ERROR", message: "Internal Server Error" });
     }
 }
 
@@ -29,15 +29,15 @@ export async function getUser(req, res) {
         const user = await userServices.getUser(id);
         
         if (!user) {
-            return res.status(404).json({ message: "User not Found." })
+            return res.status(404).json({code: "NOT_FOUND", message: "User not Found." })
         }
         else{
-            return res.status(200).json(user);
+            return res.status(200).json({ code: "SUCCESS", user });
         }
 
     } catch (error) {
         console.log("Error in getCustomer controller: ", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ code: "ERROR", message: "Internal Server Error" });
     }
 }
 
@@ -47,78 +47,58 @@ export async function createUser(req, res) {
         const { password, name, email, contact, address, role } = req.body;
         const userInfo = req.body;
         
-        const newUser = await userServices.createUser(userInfo);
+        const isSuccess = await userServices.createUser(userInfo);
 
-        if(!newUser) {
-            return res.status(400).json({ message: "User creation failed." });
+        if(!isSuccess) {
+            return res.status(400).json({ code: "CREATE_FAILED", message: "User creation failed." });
         }
         else{
-            res.status(200).json({code: "CREATE_SUCCESS", message: "User created Successfully"});
+            res.status(200).json({ code: "CREATE_SUCCESS", message: "User created Successfully" });
         }
         
     } catch (error) {
         console.log("Error in createCustomer controller: ", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ code: "ERROR", message: "Internal Server Error" });
     }
 }
 
 // ---------------------------------------------------------------------------
-// export async function updateUser(req, res) {
-//     // res.status(200).send("Here you can update the existing users.");
-//     try {
-//         // Checking if User Exists.
-//         const id = req.params.id;
-//         const user = await User.findById(id);
-//         if (!user) {
-//             return res.status(404).json({ message: "User not found." });
-//         }
-
-//         // Getting data to Update User record.
-//         const { password, name, email, contact, address, role } = req.body;
-//         let cnic = req.body.cnic;
-
-//         // Validating role.
-//         const isRoleValid = validateRole(role);
-//         if (isRoleValid != true) {
-//             return res.status(400).json({ msg: "Role is not allowed." });
-//         }
+export async function updateUser(req, res) {
+    try {
         
-//         const updatedUser = {
-//             userId: user.userId,
-//             userPassword: password,
-//             userName: name,
-//             userCNIC: cnic,
-//             userEmail: email,
-//             userContact: contact,
-//             userAddress: address,
-//             userRole: role
-//         };
+        const objectId = req.params.id;
+        const updatedInfo = req.body;
 
-//         // Saving the changes.
-//         Object.assign(user, updatedUser);
-//         const record =  await user.save();
-//         res.status(200).json({ message: "User Updated Successfully."});
+        const isSuccess = await userServices.updateUser(objectId, updatedInfo);
+        if(!isSuccess){
+            return res.status(400).json({ code: "UPDATE_FAILED", message: "User update failed." });
+        }
+        else{
+            return res.status(200).json({ code: "UPDATE_SUCCESS", message: "User Updated Successfully."});
+        }
 
-//     } catch (error) {
-//         console.log("Error in updateCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
+    } catch (error) {
+        console.log("Error in updateCustomer controller: ", error);
+        return res.status(500).json({ code: "ERROR", message: "Internal Server Error" });
+    }
+}
 
 // ---------------------------------------------------------------------------
 export async function deleteUser(req, res) {
     // res.status(200).send("Here you can delete users.");
     try {
         const recordId = req.params.id;
-        const deletedRecord = await userServices.deleteUser(recordId);
+        const isSuccess = await userServices.deleteUser(recordId);
 
-        if (!deletedRecord) {
-            return res.status(404).json({ message: "No record to delete." });
+        if (!isSuccess) {
+            return res.status(404).json({ code: "DELETE_FAILED", message: "Record not found." });
+        }
+        else{
+            res.status(200).json({ code: "DELETE_SUCCESS", message: "User deleted successfully." });
         }
 
-        res.status(200).json({ code: "DELETE_SUCCESS", message: "User deleted successfully." });
     } catch (error) {
         console.log("Error in deleteCustomer controller: ", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ code: "ERROR", message: "Internal Server Error" });
     }
 }

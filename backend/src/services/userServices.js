@@ -25,7 +25,7 @@ export async function getAllUsers(filterQuery) {
 // // -------------------------------------------------------------------------------
 export async function getUser(id) {
     try {
-        
+
         const user = await User.findById(id);
         return user;
 
@@ -41,12 +41,12 @@ export async function createUser(userInfo) {
 
         roleValidator(userInfo.role);
         phoneValidator(userInfo.contact);
-        if(userInfo.cnic !== undefined) {
+        if (userInfo.cnic !== undefined) {
             cnicValidator(userInfo.cnic);
         }
 
         const id = generateUserId(userInfo.role);
-        
+
         const newUser = new User(
             {
                 userId: id,
@@ -61,7 +61,13 @@ export async function createUser(userInfo) {
         );
 
         const user = await newUser.save();
-        return user;
+
+        if(!user) {
+            return false;
+        }
+        else{
+            return true;
+        }
 
     } catch (error) {
         console.log("Error in createCustomer service: ", error);
@@ -69,44 +75,58 @@ export async function createUser(userInfo) {
     }
 }
 
-// // -------------------------------------------------------------------------------
-// export async function updateUser(req, res) {
-//     try {
-//         // Checking if User Exists.
-//         const id = req.params.id;
-//         const user = await User.findById(id);
-//         if (!user) {
-//             return res.status(404).json({ message: "User not found." });
-//         }
+// -------------------------------------------------------------------------------
+export async function updateUser(objectId, updatedInfo) {
+    try {
+        const user = await User.findById(objectId);
 
-//         const { password, name, email, contact, address, role } = req.body;
-//         let cnic = req.body.cnic;
+        roleValidator(updatedInfo.userRole);
+        phoneValidator(updatedInfo.userContact);
+        if (updatedInfo.userCNIC !== undefined) {
+            cnicValidator(updatedInfo.userCNIC);
+        }
 
-//         const isRoleValid = validateRole(role);
-//         if (isRoleValid != true) {
-//             return res.status(400).json({ msg: "Role is not allowed." });
-//         }
-        
-//         const updatedUser = {
-//             userId: user.userId,
-//             userPassword: password,
-//             userName: name,
-//             userCNIC: cnic,
-//             userEmail: email,
-//             userContact: contact,
-//             userAddress: address,
-//             userRole: role
-//         };
+        const updatedUser = await User.findByIdAndUpdate(
+            objectId,
+            {
+                userId: updatedInfo.userId,
+                userPassword: updatedInfo.userPassword,
+                userName: updatedInfo.userName,
+                userCNIC: updatedInfo.userCNIC,
+                userEmail: updatedInfo.userEmail,
+                userContact: updatedInfo.userContact,
+                userAddress: updatedInfo.userAddress,
+                userRole: updatedInfo.userRole
+            },
+            { returnDocument: "after", runValidators: true }
+        );
 
-//         Object.assign(user, updatedUser);
-//         const record =  await user.save();
-//         res.status(200).json({ message: "User Updated Successfully."});
+        if(!updatedUser) {
+            return false;
+        }
+        else {
+            return true;
+        }
 
-//     } catch (error) {
-//         console.log("Error in updateCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
+        // const updatedUser = {
+        //     userId: user.userId,
+        //     userPassword: password,
+        //     userName: name,
+        //     userCNIC: cnic,
+        //     userEmail: email,
+        //     userContact: contact,
+        //     userAddress: address,
+        //     userRole: role
+        // };
+
+        // Object.assign(user, updatedUser);
+        // const record = await user.save();
+
+    } catch (error) {
+        console.log("Error in updateCustomer controller: ", error);
+        throw new Error(error);
+    }
+}
 
 // -------------------------------------------------------------------------------
 export async function deleteUser(recordId) {
