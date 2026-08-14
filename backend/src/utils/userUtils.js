@@ -35,15 +35,15 @@ export function validateRole(role) {
 
 export async function filterUser(searchBy, value) {
     try{
-        let user;
-    
+        let user = [];
+
         switch (searchBy) {
             case "id":
-                user = await User.findOne({ userId: value });
+                user[0] = await User.findOne({ userId: value });
                 break;
     
             case "email":
-                user = await User.findOne({ userEmail: value });
+                user[0] = await User.findOne({ userEmail: value });
                 break;
     
             case "name":
@@ -63,6 +63,7 @@ export async function filterUser(searchBy, value) {
             default:
                 throw new Error("Invalid Search."); 
         }
+
     
         return user;
     }

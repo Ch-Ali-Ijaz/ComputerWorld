@@ -4,11 +4,11 @@ import * as userServices from "../services/userServices.js"
 // ---------------------------------------------------------------------------
 export async function getAllUsers(req, res) {
     try {
-        
+
         const filterQuery = req.query;
         const users = await userServices.getAllUsers(filterQuery);
 
-        if(Object.keys(users).length === 0) {
+        if(users.length === 0 || users[0] === null) {
             return res.status(404).json({ message: "No users found." });
         }
         else{
@@ -17,7 +17,7 @@ export async function getAllUsers(req, res) {
         }
 
     } catch (error) {
-        console.log("Error in getAllCustomers controller: ", error);
+        console.log("Error in getAllUsers controller: ", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
@@ -42,39 +42,25 @@ export async function getUser(req, res) {
 }
 
 // ---------------------------------------------------------------------------
-// export async function createUser(req, res) {
-//     try {
-//         const { password, name, email, contact, address, role } = req.body;
-//         let cnic = req.body.cnic;
-
-//         // Validating role.
-//         const isRoleValid = validateRole(role);
-//         if (isRoleValid != true) {
-//             return res.status(400).json({ msg: "Role is not allowed." });
-//         }
-
-//         const id = generateUserId(role);            // generateUserId function call
+export async function createUser(req, res) {
+    try {
+        const { password, name, email, contact, address, role } = req.body;
+        const userInfo = req.body;
         
-//         const newUser = new User(
-//             {
-//                 userId: id,
-//                 userPassword: password,
-//                 userName: name,
-//                 userCNIC: cnic,
-//                 userEmail: email,
-//                 userContact: contact,
-//                 userAddress: address,
-//                 userRole: role
-//             }
-//         );
+        const newUser = await userServices.createUser(userInfo);
 
-//         const createdUser = await newUser.save();
-//         res.status(200).json({ message: "User created Successfully", createdUser });
-//     } catch (error) {
-//         console.log("Error in createCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
+        if(!newUser) {
+            return res.status(400).json({ message: "User creation failed." });
+        }
+        else{
+            res.status(200).json({ message: "User created Successfully"});
+        }
+        
+    } catch (error) {
+        console.log("Error in createCustomer controller: ", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
 
 // ---------------------------------------------------------------------------
 // export async function updateUser(req, res) {

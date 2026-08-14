@@ -42,7 +42,6 @@ export async function searchUser(userCredentials) {
 
 export async function signUp(userInfo) {
     try {
-        const address = "null";
         const role = "customer";
 
         const newCustomer = new User(
@@ -52,7 +51,6 @@ export async function signUp(userInfo) {
                 userName: userInfo.name,
                 userEmail: userInfo.email,
                 userContact: userInfo.contact,
-                userAddress: address,
                 userRole: role
             }
         );

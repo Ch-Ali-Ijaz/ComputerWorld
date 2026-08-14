@@ -1,6 +1,6 @@
 import User from "../models/User.js"
 import { generateUserId, filterUser } from "../utils/userUtils.js"
-import { roleValidator } from "../validators/userValidator.js"
+import { roleValidator, cnicValidator, phoneValidator } from "../validators/userValidator.js"
 
 // -------------------------------------------------------------------------------
 export async function getAllUsers(filterQuery) {
@@ -35,39 +35,39 @@ export async function getUser(id) {
     }
 }
 
-// // -------------------------------------------------------------------------------
-// export async function createUser(req, res) {
-//     try {
-//         const { password, name, email, contact, address, role } = req.body;
-//         let cnic = req.body.cnic;
+// -------------------------------------------------------------------------------
+export async function createUser(userInfo) {
+    try {
 
-//         const isRoleValid = validateRole(role);
-//         if (isRoleValid != true) {
-//             return res.status(400).json({ msg: "Role is not allowed." });
-//         }
+        roleValidator(userInfo.role);
+        phoneValidator(userInfo.contact);
+        if(userInfo.cnic !== undefined) {
+            cnicValidator(userInfo.cnic);
+        }
 
-//         const id = generateUserId(role);
+        const id = generateUserId(userInfo.role);
         
-//         const newUser = new User(
-//             {
-//                 userId: id,
-//                 userPassword: password,
-//                 userName: name,
-//                 userCNIC: cnic,
-//                 userEmail: email,
-//                 userContact: contact,
-//                 userAddress: address,
-//                 userRole: role
-//             }
-//         );
+        const newUser = new User(
+            {
+                userId: id,
+                userPassword: userInfo.password,
+                userName: userInfo.name,
+                userCNIC: userInfo.cnic,
+                userEmail: userInfo.email,
+                userContact: userInfo.contact,
+                userAddress: userInfo.address,
+                userRole: userInfo.role
+            }
+        );
 
-//         const createdUser = await newUser.save();
-//         res.status(200).json({ message: "User created Successfully", createdUser });
-//     } catch (error) {
-//         console.log("Error in createCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
+        const user = await newUser.save();
+        return user;
+
+    } catch (error) {
+        console.log("Error in createCustomer service: ", error);
+        throw new Error(error);
+    }
+}
 
 // // -------------------------------------------------------------------------------
 // export async function updateUser(req, res) {

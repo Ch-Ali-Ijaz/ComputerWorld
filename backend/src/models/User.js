@@ -20,11 +20,11 @@ const userSchema = new mongoose.Schema({
     userCNIC: {
         type: String,
         required: function(){
-            if(this.usrRole === "admin"){
-                return true;
+            if(this.userRole === "customer" || this.userRole === "employee"){
+                return false;
             }
             else{
-                return false;
+                return true;
             }
         }
     },
@@ -41,8 +41,7 @@ const userSchema = new mongoose.Schema({
     },
 
     userAddress: {
-        type: String,
-        required: true
+        type: String
     },
 
     userRole: {

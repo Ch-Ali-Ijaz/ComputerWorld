@@ -4,10 +4,10 @@ import express from "express";
 import {authenticate} from "../middleware/authMiddleware.js";
 import {authorizeToLogin} from "../middleware/authorizeMiddleware.js";
 
-// import {getAllUsers, getUser, createUser, updateUser, deleteUser} from "../controllers/userController.js";
+// import { updateUser, deleteUser} from "../controllers/userController.js";
 // Controllers
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
-import { getAllUsers, getUser } from "../controllers/userController.js";
+import { getAllUsers, getUser, createUser } from "../controllers/userController.js";
 
 // import { getAllProducts, getProduct, findProduct, createProduct, updateProduct, deleteProduct} from "../controllers/productsController.js";
 // import {getAllCarts, getCart, findCart, createCart, updateCart, deleteCart} from "../controllers/cartController.js";
@@ -26,7 +26,7 @@ router.use(authenticate, authorizeToLogin('admin'));
 
 router.get("/users", getAllUsers);
 router.get("/users/:id", getUser);
-// router.post("/users", createUser);
+router.post("/users", createUser);
 // router.put("/users/:id", updateUser);
 // router.delete("/users/:id", deleteUser);
 
