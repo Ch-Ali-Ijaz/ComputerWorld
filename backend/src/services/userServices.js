@@ -108,20 +108,16 @@ export async function createUser(userInfo) {
 //     }
 // }
 
-// // -------------------------------------------------------------------------------
-// export async function deleteUser(req, res) {
-//     // res.status(200).send("Here you can delete users.");
-//     try {
+// -------------------------------------------------------------------------------
+export async function deleteUser(recordId) {
+    try {
 
-//         const deletedRecord = await User.findByIdAndDelete(req.params.id);
+        const deletedRecord = await User.findByIdAndDelete(recordId);
 
-//         if (!deletedRecord) {
-//             return res.status(404).json({ message: "Record not found." });
-//         }
+        return deletedRecord;
 
-//         res.status(200).json(deletedRecord);
-//     } catch (error) {
-//         console.log("Error in deleteCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
+    } catch (error) {
+        console.log("Error in deleteCustomer service: ", error);
+        throw new Error(error);
+    }
+}

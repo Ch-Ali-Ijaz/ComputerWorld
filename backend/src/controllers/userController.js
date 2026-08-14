@@ -53,7 +53,7 @@ export async function createUser(req, res) {
             return res.status(400).json({ message: "User creation failed." });
         }
         else{
-            res.status(200).json({ message: "User created Successfully"});
+            res.status(200).json({code: "CREATE_SUCCESS", message: "User created Successfully"});
         }
         
     } catch (error) {
@@ -106,19 +106,19 @@ export async function createUser(req, res) {
 // }
 
 // ---------------------------------------------------------------------------
-// export async function deleteUser(req, res) {
-//     // res.status(200).send("Here you can delete users.");
-//     try {
+export async function deleteUser(req, res) {
+    // res.status(200).send("Here you can delete users.");
+    try {
+        const recordId = req.params.id;
+        const deletedRecord = await userServices.deleteUser(recordId);
 
-//         const deletedRecord = await User.findByIdAndDelete(req.params.id);
+        if (!deletedRecord) {
+            return res.status(404).json({ message: "No record to delete." });
+        }
 
-//         if (!deletedRecord) {
-//             return res.status(404).json({ message: "Record not found." });
-//         }
-
-//         res.status(200).json(deletedRecord);
-//     } catch (error) {
-//         console.log("Error in deleteCustomer controller: ", error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// }
+        res.status(200).json({ code: "DELETE_SUCCESS", message: "User deleted successfully." });
+    } catch (error) {
+        console.log("Error in deleteCustomer controller: ", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
