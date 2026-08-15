@@ -6,9 +6,10 @@ import {authorizeToLogin} from "../middleware/authorizeMiddleware.js";
 
 // Controllers
 import { getAllUsers, getUser, createUser, updateUser, deleteUser } from "../controllers/userController.js";
+import { getAllProducts, getProduct, createProduct, updateProduct, deleteProduct } from "../controllers/productController.js";
 
-// import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
 // import { getAllProducts, getProduct, findProduct, createProduct, updateProduct, deleteProduct} from "../controllers/productsController.js";
+// import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
 // import {getAllCarts, getCart, findCart, createCart, updateCart, deleteCart} from "../controllers/cartController.js";
 // import {getAllOrders, getOrder, createOrder, updateOrder, deleteOrder} from "../controllers/orderController.js";
 // import {getAllDeliveries, getDelivery, createDelivery, updateDelivery, deleteDelivery} from "../controllers/deliveryController.js";
@@ -16,10 +17,6 @@ import { getAllUsers, getUser, createUser, updateUser, deleteUser } from "../con
 
 const router = express.Router();
 router.use(authenticate, authorizeToLogin('admin'));
-
-// // Profile related routes
-// router.get("/profile", viewMyProfile);
-// router.put("/profile/:id", updateMyProfile);
 
 // User related routes
 
@@ -29,14 +26,19 @@ router.post("/users", createUser);
 router.put("/users/:id", updateUser);
 router.delete("/users/:id", deleteUser);
 
-// // Product related routes
+// Product related routes
 
-// router.get("/products", getAllProducts);
-// router.get("/products/:id", getProduct);
-// router.get("/products", findProduct);
-// router.post("/products", createProduct);
-// router.put("/products/:id", updateProduct);
-// router.delete("/products/:id", deleteProduct);
+router.get("/products", getAllProducts);
+router.get("/products/:id", getProduct);
+router.post("/products", createProduct);
+router.put("/products/:id", updateProduct);
+router.delete("/products/:id", deleteProduct);
+
+// // Profile related routes
+// router.get("/profile", viewMyProfile);
+// router.put("/profile/:id", updateMyProfile);
+
+
 
 // // Cart related routes
 // router.get("/cart", getAllCarts);
