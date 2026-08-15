@@ -1,5 +1,4 @@
 import * as productServices from "../services/productServices.js";
-import { createProductUseCase } from "../use_case/createProduct.js";
 
 export async function getAllProducts(req, res) {
     try {
@@ -80,9 +79,9 @@ export async function updateProduct(req, res) {
     try {
         const id = req.params.id;
         const newInfo = req.body;
-        const updatedInfoId = await productServices.updateProduct(id, newInfo);
+        const updatedProduct = await productServices.updateProduct(id, newInfo);
 
-        if (!updatedInfoId) {
+        if (!updatedProduct) {
             return res.status(500).json({
                 code: "FAILURE", message: "Product update failed."
             });
@@ -96,7 +95,7 @@ export async function updateProduct(req, res) {
     } catch (error) {
         console.log("Error in updateProduct controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "An error occured while updating the product."
+            code: "ERROR", message: "An error occured while updating the product.", updatedProduct: updateProduct
         });
     }
 };

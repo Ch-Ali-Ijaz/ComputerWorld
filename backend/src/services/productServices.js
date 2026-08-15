@@ -65,15 +65,15 @@ export async function createProduct(productInfo) {
 export async function updateProduct(id, newInfo) {
     try{
         
-        const updatedProduct = {
+        const product = {
             productId: newInfo.productId,
             brand: newInfo.brand,
             series: newInfo.series,
             modelNo: newInfo.model
         };
-        const newProduct = await Product.findByIdAndUpdate(id, updatedProduct);
+        const updatedProduct = await Product.findByIdAndUpdate(id, product);
     
-        return newProduct._id;
+        return updatedProduct;
 
         
     }catch(error){
@@ -89,6 +89,7 @@ export async function deleteProduct(id) {
     {
         const product = await Product.findByIdAndDelete(id);
         return product;
+        
     }catch(error){
         console.log("Error in deleteProduct service");
         throw new Error(error);
