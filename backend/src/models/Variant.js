@@ -44,7 +44,7 @@ const variantSchema = new mongoose.Schema({
     },
 
     memory: {
-        type: String,
+        type: Number,
         required: true
     },
 

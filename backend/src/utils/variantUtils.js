@@ -9,53 +9,71 @@ export function setVariantId(ram, memory) {
 export function setFilterObject(queries) {
     const filter = {};
 
-    if (queries.id) {
-        filter.productId = queries.id;
+    if (Object.keys(queries).length === 0) {
+        return filter;
     }
-    if (queries.defectId) {
-        filter["productDefect.defectId"] = queries.defectId;
-    }
-    if (defectType) {
-        filter["productDefect.defectType"] = defectType;
-    }
-    if (name) {
-        filter.productName = {
-            $regex: name,
-            $options: "i"
-        };
-    }
-    if (series) {
-        filter.productSeries = {
-            $regex: series,
-            $options: "i"
-        };
-    }
-    if (display) {
-        filter["productSpecs.display"] = display;
-    }
-    if (ram) {
-        filter["productSpecs.RAM"] = Number(ram);
-    }
-    if (processor) {
-        filter["productSpecs.processor"] = processor;
-    }
-    if (graphicCard) {
-        filter["productSpecs.graphicCard"] = graphicCard;
-    }
-    if (memory) {
-        filter["productSpecs.memory"] = memory;
-    }
-    if (status) {
-        filter.productStatus = status;
-    }
-    if (minPrice || maxPrice) {
-        filter.productPrice = {};
 
-        if (minPrice) {
-            filter.productPrice.$gte = Number(minPrice);
+    if (queries.productId) {
+        filter.product_Id = queries.productId;
+    }
+    if (queries.variantId) {
+        filter.variantId = queries.variantId;
+    }
+    if (queries.minDisplaySize || queries.maxDisplaySize) {
+        filter.displaySize = {};
+        if (queries.minDisplaySize) {
+            filter.displaySize.$gte = queries.minDisplaySize;
         }
-        if (maxPrice) {
-            filter.productPrice.$lte = Number(maxPrice);
+        if (queries.maxDisplaySize) {
+            filter.displaySize.$lte = queries.maxDisplaySize;
+        }
+    }
+    if (queries.displayType) {
+        filter.displayType = {
+            $regex: queries.displayType,
+            $option: "i"
+        };
+    }
+    if (queries.minRAM || queries.maxRAM) {
+        filter.RAM = {};
+        if (queries.minRAM) {
+            filter.RAM.$gte = Number(queries.minRAM);
+        }
+        if (queries.maxRAM) {
+            filter.RAM.$lte = Number(queries.maxRAM);
+        }
+    }
+    if (queries.processor) {
+        filter.processor = {
+            $regex: queries.processor,
+            $option: "i"
+        };
+    }
+    if (queries.graphicCard) {
+        filter.graphicCard = queries.graphicCard;
+    }
+    if (queries.storageType) {
+        filter.storageType = {
+            $regex: queries.storageType,
+            $option: "i"
+        };
+    }
+    if (queries.minQuantity || queries.maxQuantity) {
+        filter.quantity = {};
+        if (queries.minQuantity) {
+            filter.quantity.$gte = queries.minQuantity;
+        }
+        if (queries.maxQuantity) {
+            filter.quantity.$lte = queries.maxQuantity;
+        }
+    }
+    if (queries.minMemory || queries.maxMemory) {
+        filter.memory = {};
+        if (queries.minMemory) {
+            filter.memory.$gte = queries.minMemory;
+        }
+        if (queries.maxMemory) {
+            filter.memory.$lte = queries.maxMemory;
         }
     }
 

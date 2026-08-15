@@ -7,8 +7,8 @@ import {authorizeToLogin} from "../middleware/authorizeMiddleware.js";
 // Controllers
 import { getAllUsers, getUser, createUser, updateUser, deleteUser } from "../controllers/userController.js";
 import { getAllProducts, getProduct, createProduct, updateProduct, deleteProduct } from "../controllers/productController.js";
+import { getAllVariants, getVariant, createVariant, updateVariant, deleteVariant } from "../controllers/variantController.js";
 
-// import { getAllProducts, getProduct, findProduct, createProduct, updateProduct, deleteProduct} from "../controllers/productsController.js";
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
 // import {getAllCarts, getCart, findCart, createCart, updateCart, deleteCart} from "../controllers/cartController.js";
 // import {getAllOrders, getOrder, createOrder, updateOrder, deleteOrder} from "../controllers/orderController.js";
@@ -33,6 +33,22 @@ router.get("/products/:id", getProduct);
 router.post("/products", createProduct);
 router.put("/products/:id", updateProduct);
 router.delete("/products/:id", deleteProduct);
+
+// Variant related routes
+
+router.get("/variants", getAllVariants);
+router.get("/variants/:id", getVariant);
+router.post("/variants/:id", createVariant);
+router.put("/variants/:id", updateVariant);
+router.delete("/variants/:id", deleteVariant);
+
+// InventoryUnit related routes
+
+// router.get("/InventoryUnits", getAllPInventoryUnit);
+// router.get("/InventoryUnits/:id", getInventoryUnit);
+// router.post("/InventoryUnits", createInventoryUnit);
+// router.put("/InventoryUnits/:id", updateInventoryUnit);
+// router.delete("/InventoryUnits/:id", deleteInventoryUnit);
 
 // // Profile related routes
 // router.get("/profile", viewMyProfile);
