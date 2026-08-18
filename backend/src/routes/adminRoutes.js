@@ -5,9 +5,11 @@ import {authenticate} from "../middleware/authMiddleware.js";
 import {authorizeToLogin} from "../middleware/authorizeMiddleware.js";
 
 // Controllers
-import { getAllUsers, getUser, createUser, updateUser, deleteUser } from "../controllers/userController.js";
-import { getAllProducts, getProduct, createProduct, updateProduct, deleteProduct } from "../controllers/productController.js";
-import { getAllVariants, getVariant, createVariant, updateVariant, deleteVariant } from "../controllers/variantController.js";
+import * as userController from "../controllers/userController.js";
+import * as dealerController from "../controllers/dealerController.js";
+import * as productController from "../controllers/productController.js";
+import * as variantController from "../controllers/variantController.js";
+import * as inventoryUnitController from "../controllers/inventoryUnitController.js";
 
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
 // import {getAllCarts, getCart, findCart, createCart, updateCart, deleteCart} from "../controllers/cartController.js";
@@ -20,35 +22,51 @@ router.use(authenticate, authorizeToLogin('admin'));
 
 // User related routes
 
-router.get("/users", getAllUsers);
-router.get("/users/:id", getUser);
-router.post("/users", createUser);
-router.put("/users/:id", updateUser);
-router.delete("/users/:id", deleteUser);
+router.get("/users", userController.getAllUsers);
+router.get("/users/:id", userController.getUser);
+router.post("/users", userController.createUser);
+router.put("/users/:id", userController.updateUser);
+router.delete("/users/:id", userController.deleteUser);
+
+// Dealer related routes
+
+router.get("/dealers", dealerController.getAllDealers);
+router.get("/dealers/:id", dealerController.getDealer);
+router.post("/dealers", dealerController.createDealer);
+router.put("/dealers/:id", dealerController.updateDealer);
+router.delete("/dealers/:id", dealerController.deleteDealer);
 
 // Product related routes
 
-router.get("/products", getAllProducts);
-router.get("/products/:id", getProduct);
-router.post("/products", createProduct);
-router.put("/products/:id", updateProduct);
-router.delete("/products/:id", deleteProduct);
+router.get("/products", productController.getAllProducts);
+router.get("/products/:id", productController.getProduct);
+router.post("/products", productController.createProduct);
+router.put("/products/:id", productController.updateProduct);
+router.delete("/products/:id", productController.deleteProduct);
 
 // Variant related routes
 
-router.get("/variants", getAllVariants);
-router.get("/variants/:id", getVariant);
-router.post("/variants/:id", createVariant);
-router.put("/variants/:id", updateVariant);
-router.delete("/variants/:id", deleteVariant);
+router.get("/variants", variantController.getAllVariants);
+router.get("/variants/:id", variantController.getVariant);
+router.post("/variants/:id", variantController.createVariant);
+router.put("/variants/:id", variantController.updateVariant);
+router.delete("/variants/:id", variantController.deleteVariant);
+
+// Defects related routes
+
+// router.get("/variants", variantController.getAllVariants);
+// router.get("/variants/:id", variantController.getVariant);
+// router.post("/variants/:id", variantController.createVariant);
+// router.put("/variants/:id", variantController.updateVariant);
+// router.delete("/variants/:id", variantController.deleteVariant);
 
 // InventoryUnit related routes
 
-// router.get("/InventoryUnits", getAllPInventoryUnit);
-// router.get("/InventoryUnits/:id", getInventoryUnit);
-// router.post("/InventoryUnits", createInventoryUnit);
-// router.put("/InventoryUnits/:id", updateInventoryUnit);
-// router.delete("/InventoryUnits/:id", deleteInventoryUnit);
+// router.get("/InventoryUnits", inventoryUnitController.getAllUnits);
+// router.get("/InventoryUnits/:id", inventoryUnitController.getUnit);
+// router.post("/InventoryUnits/:id", inventoryUnitController.createUnit);
+// router.put("/InventoryUnits/:id", inventoryUnitController.updateUnit);
+// router.delete("/InventoryUnits/:id", inventoryUnitController.deleteUnit);
 
 // // Profile related routes
 // router.get("/profile", viewMyProfile);
