@@ -7,15 +7,25 @@ const inventoryUnitSchema = new mongoose.Schema({
         required: true
     },
 
-    variantId: {
+    variant_Id: {
         type: String,
         required: true,
         ref: "Variant"
     },
 
+    dealer_Id: {
+        type: String, 
+        required: true
+    },
+
+    defect_Id: {
+        type: String, 
+        required: true
+    },
+    
     currentStatus: {
         type: String,
-        enum: ["Due-Inspection", "available", "claim-warranty", "sold", "reserved", "defective"],
+        enum: ["Due-Inspection", "Available", "Sold", "Reserved", "Defective", "Scrap"],
         required: true
     },
 
@@ -30,37 +40,35 @@ const inventoryUnitSchema = new mongoose.Schema({
         }
     },
 
-    price: {
-        type: Number,
-        required: true
+    purchaseCost: {
+        type: Number
     },
 
-    unitDefect:{
-        defectId: {
-            type: String,
-            unique: true
-        },
-        defectDescription: {
-            type: String,
-        }
+    sellingPrice: {
+        type: Number
+    },
+
+    soldPrice: {
+        type: Number
     }
+
 },
 
     { timestamps: true }
 );
 
-// productSchema.index(
-//     { "productDefect.defectId": 1 },
-//     {
-//         unique: true,
-//         partialFilterExpression: {
-//             "productDefect.defectId": {
-//                 $exists: true,
-//                 $type: "string"
-//             }
-//         }
-//     }
-// );
+inventoryUnitSchema.index(
+    { "unitDefect.defectId": 1 },
+    {
+        unique: true,
+        partialFilterExpression: {
+            "unitDefect.defectId": {
+                $exists: true,
+                $type: "string"
+            }
+        }
+    }
+);
 const InventoryUnit = mongoose.model("InventoryUnit", inventoryUnitSchema);
 
 export default InventoryUnit

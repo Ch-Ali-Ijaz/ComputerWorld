@@ -68,8 +68,8 @@ export async function updateVariant(id, newInfo){
             processor: newInfo.processor,
             graphicCard: newInfo.graphicCard,
             storageType: newInfo.storageType
-        }
-        const updatedVariant = await Variant.findByIdAndUpdate(id, variant, {returnDocument: "after"});
+        };
+        const updatedVariant = await Variant.findByIdAndUpdate(id, variant, {returnDocument: "After"});
 
         return updatedVariant;
 

@@ -22,10 +22,10 @@ export function setFilterObject(queries) {
     if (queries.minDisplaySize || queries.maxDisplaySize) {
         filter.displaySize = {};
         if (queries.minDisplaySize) {
-            filter.displaySize.$gte = queries.minDisplaySize;
+            filter.displaySize.$gte = Number(queries.minDisplaySize);
         }
         if (queries.maxDisplaySize) {
-            filter.displaySize.$lte = queries.maxDisplaySize;
+            filter.displaySize.$lte = Number(queries.maxDisplaySize);
         }
     }
     if (queries.displayType) {
@@ -61,19 +61,19 @@ export function setFilterObject(queries) {
     if (queries.minQuantity || queries.maxQuantity) {
         filter.quantity = {};
         if (queries.minQuantity) {
-            filter.quantity.$gte = queries.minQuantity;
+            filter.quantity.$gte = Number(queries.minQuantity);
         }
         if (queries.maxQuantity) {
-            filter.quantity.$lte = queries.maxQuantity;
+            filter.quantity.$lte = Number(queries.maxQuantity);
         }
     }
     if (queries.minMemory || queries.maxMemory) {
         filter.memory = {};
         if (queries.minMemory) {
-            filter.memory.$gte = queries.minMemory;
+            filter.memory.$gte = Number(queries.minMemory);
         }
         if (queries.maxMemory) {
-            filter.memory.$lte = queries.maxMemory;
+            filter.memory.$lte = Number(queries.maxMemory);
         }
     }
 

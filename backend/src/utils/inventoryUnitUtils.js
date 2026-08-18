@@ -1,69 +1,79 @@
 import { customAlphabet } from "nanoid";
-const nanoid = customAlphabet("1234567890ABCDEF", 8);
+const nanoid = customAlphabet("1234567890", 4);
 
-export function setInventoryUnitId(quantity){
-    let count;
-    let Id = [];
+export function setUnitId(quantity){
+    const uniqueSuffix = nanoid();
+    let count = 1;
+    let unitIds = [];
 
-    for(count = 0; count < quantity; count++){
-        Id[count] = "IU" + nanoid();
+    for(let i = 0; i < quantity; i++){
+        unitIds[i] = "IU" + `-` + uniqueSuffix + `-` + 0 + count;
+        count++;
     }
 
-    return Id;
+    return unitIds;
 };
 
+// ---------------------------------------------------------
 export function setFilterObject(queries) {
     const filter = {};
 
-    if (queries.id) {
-        filter.productId = queries.id;
+    if(Object.keys(queries).length === 0){
+        return filter;
+    }
+
+    if (queries.unitId) {
+        filter.unitId = queries.unitId;
+    }
+    if (queries.variantId) {
+        filter.variant_Id = queries.variantId;
     }
     if (queries.defectId) {
-        filter["productDefect.defectId"] = queries.defectId;
+        filter["unitDefect.defectId"] = queries.defectId;
     }
-    if (defectType) {
-        filter["productDefect.defectType"] = defectType;
-    }
-    if (name) {
-        filter.productName = {
-            $regex: name,
+    if (queries.defectDescription) {
+        filter["unitDefect.defectDescription"] = {
+            $regex: queries.defectDescription,
             $options: "i"
+        }
+    }
+    if (queries.warrantyStatus) {
+        filter.warranty.status = queries.warrantyStatus;
+    }
+    if (queries.warrantyStartDate) {
+        filter["warranty.startDate"] = {
+            $gte: new Date(queries.warrantyStartDate)
         };
     }
-    if (series) {
-        filter.productSeries = {
-            $regex: series,
-            $options: "i"
+    if (queries.warrantyEndDate) {
+        filter["warranty.endDate"] = {
+            $lte: new Date(queries.warrantyEndDate)
         };
     }
-    if (display) {
-        filter["productSpecs.display"] = display;
+    if (queries.currentStatus) {
+        filter.currentStatus = queries.currentStatus;
     }
-    if (ram) {
-        filter["productSpecs.RAM"] = Number(ram);
-    }
-    if (processor) {
-        filter["productSpecs.processor"] = processor;
-    }
-    if (graphicCard) {
-        filter["productSpecs.graphicCard"] = graphicCard;
-    }
-    if (memory) {
-        filter["productSpecs.memory"] = memory;
-    }
-    if (status) {
-        filter.productStatus = status;
-    }
-    if (minPrice || maxPrice) {
-        filter.productPrice = {};
+    if (queries.minPrice || queries.maxPrice) {
+        filter.price = {};
 
         if (minPrice) {
-            filter.productPrice.$gte = Number(minPrice);
+            filter.price.$gte = Number(queries.minPrice);
         }
         if (maxPrice) {
-            filter.productPrice.$lte = Number(maxPrice);
+            filter.price.$lte = Number(queries.maxPrice);
         }
     }
 
     return filter;
+};
+
+export function updateDates(unitStatus) {
+    let startDate, endDate;
+    if(unitStatus === "Sold"){
+        startDate = new Date.now();
+        endDate = endDate.setDate(startDate.getDate() + 7);
+        return { startDate, endDate };
+    }else{
+        return;
+    }
 };
