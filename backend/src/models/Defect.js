@@ -1,14 +1,38 @@
 import mongoose from "mongoose";
 
 const defectSchema = new mongoose.Schema({
+
+    creator_Id: {
+        type: String,
+        required: true,
+        ref: "User"
+    },
+    updator_Id: {
+        type: String,
+        ref: "User"
+    },
+
+    unit_Id: {
+        type: String,
+        required: true,
+        ref: "InventoryUnit"
+    },
+
     defectId: {
         type: String,
         required: true,
         unique: true
     },
-    defectDescription: {
+
+    description: {
         type: String,
         required: true
+    },
+
+    status: {
+        type: String,
+        required: true,
+        enum: ["Resolved", "Pending"]
     }
 
 },

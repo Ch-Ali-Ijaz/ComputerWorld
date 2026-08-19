@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export function generateLoginToken(user){
     return jwt.sign(
-        {userId: user.userId, role: user.userRole},
+        {userId: user._id, role: user.userRole},
         process.env.JWT_SECRET,
         {expiresIn: '1h'}
     );
