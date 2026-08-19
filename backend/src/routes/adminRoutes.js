@@ -9,6 +9,7 @@ import * as userController from "../controllers/userController.js";
 import * as dealerController from "../controllers/dealerController.js";
 import * as productController from "../controllers/productController.js";
 import * as variantController from "../controllers/variantController.js";
+import * as defectController from "../controllers/defectController.js";
 import * as inventoryUnitController from "../controllers/inventoryUnitController.js";
 
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
@@ -54,19 +55,19 @@ router.delete("/variants/:id", variantController.deleteVariant);
 
 // Defects related routes
 
-// router.get("/variants", variantController.getAllVariants);
-// router.get("/variants/:id", variantController.getVariant);
-// router.post("/variants/:id", variantController.createVariant);
-// router.put("/variants/:id", variantController.updateVariant);
-// router.delete("/variants/:id", variantController.deleteVariant);
+router.get("/defects", defectController.getAllDefects);
+router.get("/defects/:id", defectController.getDefect);
+router.post("/defects/:id", defectController.createDefect);
+router.put("/defects/:id", defectController.updateDefect);
+router.delete("/defects/:id", defectController.deleteDefect);
 
 // InventoryUnit related routes
 
-// router.get("/InventoryUnits", inventoryUnitController.getAllUnits);
-// router.get("/InventoryUnits/:id", inventoryUnitController.getUnit);
-// router.post("/InventoryUnits/:id", inventoryUnitController.createUnit);
-// router.put("/InventoryUnits/:id", inventoryUnitController.updateUnit);
-// router.delete("/InventoryUnits/:id", inventoryUnitController.deleteUnit);
+router.get("/InventoryUnits", inventoryUnitController.getAllUnits);
+router.get("/InventoryUnits/:id", inventoryUnitController.getUnit);
+router.post("/InventoryUnits/:id", inventoryUnitController.createUnit);
+router.put("/InventoryUnits/:id", inventoryUnitController.updateUnit);
+router.delete("/InventoryUnits/:id", inventoryUnitController.deleteUnit);
 
 // // Profile related routes
 // router.get("/profile", viewMyProfile);
