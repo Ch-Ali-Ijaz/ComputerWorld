@@ -63,11 +63,11 @@ router.delete("/defects/:id", defectController.deleteDefect);
 
 // InventoryUnit related routes
 
-router.get("/InventoryUnits", inventoryUnitController.getAllUnits);
-router.get("/InventoryUnits/:id", inventoryUnitController.getUnit);
+router.get("/InventoryUnits", inventoryUnitController.getUnits);
 router.post("/InventoryUnits/:id", inventoryUnitController.createUnit);
-router.put("/InventoryUnits/:id", inventoryUnitController.updateUnit);
-router.delete("/InventoryUnits/:id", inventoryUnitController.deleteUnit);
+router.put("/InventoryUnits", inventoryUnitController.updateUnit);
+router.put("/InventoryUnits/sellUnits", inventoryUnitController.sellUnits);
+router.delete("/InventoryUnits/deleteUnits", inventoryUnitController.deleteUnit);
 
 // // Profile related routes
 // router.get("/profile", viewMyProfile);

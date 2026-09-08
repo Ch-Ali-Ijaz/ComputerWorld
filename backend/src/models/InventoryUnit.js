@@ -8,19 +8,22 @@ const inventoryUnitSchema = new mongoose.Schema({
     },
 
     variant_Id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Variant"
     },
 
     dealer_Id: {
-        type: String, 
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Dealer"
     },
 
     defect_Id: {
-        type: String, 
-        required: true
+        type: mongoose.Schema.Types.ObjectId, 
+        default: null,
+        ref: "Defect",
+        unique: true
     },
     
     currentStatus: {
@@ -29,14 +32,20 @@ const inventoryUnitSchema = new mongoose.Schema({
         required: true
     },
 
-    warranty: {
+    dealerWarranty: {
         startDate: {
-            type: Date,
-            required: true
+            type: Date
+        },
+        endDate: {
+            type: Date
+        }
+    },
+    customerWarranty: {
+        startDate: {
+            type: Date
         },
         endDate: {
             type: Date,
-            required: true
         }
     },
 
@@ -57,18 +66,6 @@ const inventoryUnitSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
-inventoryUnitSchema.index(
-    { "unitDefect.defectId": 1 },
-    {
-        unique: true,
-        partialFilterExpression: {
-            "unitDefect.defectId": {
-                $exists: true,
-                $type: "string"
-            }
-        }
-    }
-);
 const InventoryUnit = mongoose.model("InventoryUnit", inventoryUnitSchema);
 
 export default InventoryUnit

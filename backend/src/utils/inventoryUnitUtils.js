@@ -1,12 +1,12 @@
 import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("1234567890", 4);
 
-export function setUnitId(quantity){
+export function setUnitId(quantity) {
     const uniqueSuffix = nanoid();
     let count = 1;
     let unitIds = [];
 
-    for(let i = 0; i < quantity; i++){
+    for (let i = 0; i < quantity; i++) {
         unitIds[i] = "IU" + `-` + uniqueSuffix + `-` + 0 + count;
         count++;
     }
@@ -18,10 +18,13 @@ export function setUnitId(quantity){
 export function setFilterObject(queries) {
     const filter = {};
 
-    if(Object.keys(queries).length === 0){
+    if (Object.keys(queries).length === 0) {
         return filter;
     }
 
+    if (queries.id) {
+        filter._id = queries.id;
+    }
     if (queries.unitId) {
         filter.unitId = queries.unitId;
     }
@@ -29,25 +32,29 @@ export function setFilterObject(queries) {
         filter.variant_Id = queries.variantId;
     }
     if (queries.defectId) {
-        filter["unitDefect.defectId"] = queries.defectId;
+        filter.defect_Id = queries.defectId;
     }
-    if (queries.defectDescription) {
-        filter["unitDefect.defectDescription"] = {
-            $regex: queries.defectDescription,
-            $options: "i"
-        }
+    if (queries.dealerId) {
+        filter.dealer_Id = queries.dealerId;
     }
-    if (queries.warrantyStatus) {
-        filter.warranty.status = queries.warrantyStatus;
-    }
-    if (queries.warrantyStartDate) {
-        filter["warranty.startDate"] = {
-            $gte: new Date(queries.warrantyStartDate)
+    if (queries.dealerWarrantySD) {
+        filter["dealerWarranty.startDate"] = {
+            $gte: new Date(queries.dealerWarrantySD)
         };
     }
-    if (queries.warrantyEndDate) {
-        filter["warranty.endDate"] = {
-            $lte: new Date(queries.warrantyEndDate)
+    if (queries.dealerWarrantyED) {
+        filter["dealerWarranty.endDate"] = {
+            $lte: new Date(queries.dealerWarrantyED)
+        };
+    }
+    if (queries.customerWarrantySD) {
+        filter["customerWarranty.startDate"] = {
+            $gte: new Date(queries.customerWarrantySD)
+        };
+    }
+    if (queries.customerWarrantyED) {
+        filter["customerWarranty.endDate"] = {
+            $lte: new Date(queries.customerWarrantyED)
         };
     }
     if (queries.currentStatus) {
@@ -67,13 +74,29 @@ export function setFilterObject(queries) {
     return filter;
 };
 
-export function updateDates(unitStatus) {
-    let startDate, endDate;
-    if(unitStatus === "Sold"){
-        startDate = new Date.now();
-        endDate = endDate.setDate(startDate.getDate() + 7);
-        return { startDate, endDate };
-    }else{
+// ---------------------------------------------------------
+export function setCustomerWarranty(newStatus) {
+
+    if (newStatus && newStatus !== "Sold") {
         return;
     }
+
+    let startDate, endDate;
+
+    startDate = Date();
+    endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 7);
+    return { startDate, endDate };
+};
+
+// ---------------------------------------------------------
+export function setDealerWarranty(startDate, numOfDays) {
+    if(!startDate && !numOfDays){
+        return;
+    }
+
+    let endDate;
+    endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + Number(numOfDays));
+    return { startDate, endDate };
 };

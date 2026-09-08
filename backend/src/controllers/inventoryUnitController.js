@@ -1,9 +1,9 @@
 import * as inventoryUnitServices from "../services/inventoryUnitServices.js";
 
-export async function getAllUnits(req, res) {
+export async function getUnits(req, res) {
     try {
         const queries = req.query;
-        const units = await inventoryUnitServices.getAllUnits(queries);
+        const units = await inventoryUnitServices.getUnits(queries);
 
         if (units.length === 0) {
             return res.status(404).json({
@@ -25,36 +25,12 @@ export async function getAllUnits(req, res) {
 };
 
 // -------------------------------------------------------------------------
-export async function getUnit(req, res) {
-    try {
-        const id = req.params.id;
-        const unit = await inventoryUnitServices.getUnit(id);
-
-        if (!unit) {
-            return res.status(404).json({
-                code: "NOT_FOUND", message: "Unit not Found."
-            });
-
-        } else {
-            return res.status(200).json({
-                code: "SUCCESS", message: "Unit retrieved Successfully.", unit: unit
-            });
-        }
-
-    } catch (error) {
-        console.log("Error in getUnit controller: ", error);
-        return res.status(500).json({
-            code: "ERROR", message: "Error getting unit."
-        });
-    }
-};
-
-// -------------------------------------------------------------------------
 export async function createUnit(req, res) {
     try {
-        const variantId = req.params.id;
         const unitInfo = req.body;
-        const newUnits = await inventoryUnitServices.createUnit(variantId, unitInfo);
+        unitInfo.variantId = req.params.id;
+
+        const newUnits = await inventoryUnitServices.createUnit(unitInfo.quantity, unitInfo);
 
         if (newUnits.length === 0) {
             return res.status(400).json({
@@ -77,47 +53,79 @@ export async function createUnit(req, res) {
 // -------------------------------------------------------------------------
 export async function updateUnit(req, res) {
     try {
-        const id = req.params.id;
+        const userRole = req.user.userRole;
+        const queries = req.query;
         const newInfo = req.body;
-        const updatedUnit = await inventoryUnitServices.updateUnit(id, queries, newInfo);
+        const numOfUpdatedUnits = await inventoryUnitServices.updateUnits(userRole, queries, newInfo);
 
-        if (!updatedUnit) {
+        if (numOfUpdatedUnits.matchedCount === 0) {
             return res.status(404).json({
-                code: "NOT_FOUND", message: "Unit not found to update."
+                code: "NOT_FOUND", message: "Unit(s) not found."
+            });
+        }
+        else if (numOfUpdatedUnits.modifiedCount === 0) {
+            return res.status(404).json({
+                code: "UPTODATE", message: "Unit(s) are already up to date."
+            });
+        }
+        else {
+            return res.status(200).json({
+                code: "SUCCESS", message: "Number of Modified Units: " + numOfUpdatedUnits.modifiedCount
+            });
+        }
+    } catch (error) {
+        console.log("Error in updateUnit: ", error);
+        return res.status(500).json({
+            code: "ERROR", message: "Error updating a Unit."
+        });
+    }
+};
+
+// -------------------------------------------------------------------------
+export async function sellUnits(req, res) {
+    try {
+        const items = req.body.items;
+        const numOfSoldUnits = await inventoryUnitServices.sellUnits(items);
+
+        if (numOfSoldUnits.matchedCount === 0) {
+            return res.status(404).json({
+                code: "NOT_FOUND", message: "Units not found to sell."
+            });
+        }
+        else {
+            return res.status(200).json({
+                code: "SUCCESS", message: "Number of units sold successfully: " + numOfSoldUnits.modifiedCount
+            });
+        }
+
+    } catch (error) {
+        console.log("Error in sellUnits controller: ", error);
+        return res.status(500).json({
+            code: "ERROR", message: "Error during selling units."
+        });
+    }
+};
+
+// -------------------------------------------------------------------------
+export async function deleteUnit(req, res) {
+    try {
+        const queries = req.query;
+        const numOfDeletedUnits = await inventoryUnitServices.deleteUnits(queries);
+
+        if (numOfDeletedUnits.deletedCount === 0) {
+            return res.status(404).json({
+                code: "NOT_FOUND", message: "Unit not found to delete."
             });
         } else {
             return res.status(200).json({
-                code: "SUCCESS", message: "Unit updated successfully.", updatedUnit: updatedUnit
+                code: "SUCCESS", message: "Number of successfull deletions: " + numOfDeletedUnits.deletedCount
             });
         }
-        }catch (error) {
-            console.log("Error in updateUnit: ", error);
-            return res.status(500).json({
-                code: "ERROR", message: "Error updating a Unit."
-            });
-        }
-    };
 
-    // // -------------------------------------------------------------------------
-    export async function deleteUnit(req, res) {
-        try {
-            const id = req.params.id;
-            const deletedUnit = await inventoryUnitServices.deleteUnit(id);
-
-            if (!deleteUnit) {
-                return res.status(404).json({
-                    code: "NOT_FOUND", message: "Unit not found to delete."
-                });
-            } else {
-                return res.status(404).json({
-                    code: "SUCCESS", message: "Unit deletion Successfull.", deletedUnit: deletedUnit
-                });
-            }
-
-        } catch (error) {
-            console.log("Error in deleteUnit controller: ", error);
-            return res.status(500).json({
-                code: "ERROR", message: "Error during deleting a Unit."
-            });
-        }
-    };
+    } catch (error) {
+        console.log("Error in deleteUnit controller: ", error);
+        return res.status(500).json({
+            code: "ERROR", message: "Error during deleting a Unit."
+        });
+    }
+};
