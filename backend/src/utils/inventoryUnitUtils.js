@@ -22,8 +22,8 @@ export function setFilterObject(queries) {
         return filter;
     }
 
-    if (queries.id) {
-        filter._id = queries.id;
+    if (queries.objecId) {
+        filter._id = queries.objecId;
     }
     if (queries.unitId) {
         filter.unitId = queries.unitId;
@@ -60,14 +60,24 @@ export function setFilterObject(queries) {
     if (queries.currentStatus) {
         filter.currentStatus = queries.currentStatus;
     }
-    if (queries.minPrice || queries.maxPrice) {
-        filter.price = {};
+    if (queries.minPurchaseCost || queries.maxPurchaseCost) {
+        filter.purchaseCost = {};
 
-        if (minPrice) {
-            filter.price.$gte = Number(queries.minPrice);
+        if (minPurchaseCost) {
+            filter.purchaseCost.$gte = Number(queries.minPurchaseCost);
         }
-        if (maxPrice) {
-            filter.price.$lte = Number(queries.maxPrice);
+        if (maxPurchaseCost) {
+            filter.purchaseCost.$lte = Number(queries.maxPurchaseCost);
+        }
+    }
+    if (queries.minSoldPrice || queries.maxSoldPrice) {
+        filter.soldPrice = {};
+
+        if (minSoldPrice) {
+            filter.soldPrice.$gte = Number(queries.minSoldPrice);
+        }
+        if (maxSoldPrice) {
+            filter.soldPrice.$lte = Number(queries.maxSoldPrice);
         }
     }
 

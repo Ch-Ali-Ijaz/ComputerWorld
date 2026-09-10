@@ -11,9 +11,9 @@ import * as productController from "../controllers/productController.js";
 import * as variantController from "../controllers/variantController.js";
 import * as defectController from "../controllers/defectController.js";
 import * as inventoryUnitController from "../controllers/inventoryUnitController.js";
+import * as cartController from "../controllers/cartController.js";
 
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
-// import {getAllCarts, getCart, findCart, createCart, updateCart, deleteCart} from "../controllers/cartController.js";
 // import {getAllOrders, getOrder, createOrder, updateOrder, deleteOrder} from "../controllers/orderController.js";
 // import {getAllDeliveries, getDelivery, createDelivery, updateDelivery, deleteDelivery} from "../controllers/deliveryController.js";
 // import {getAllReviews, getReview, createReview, updateReview, deleteReview, getAllReReview} from "../controllers/reviewController.js";
@@ -46,7 +46,6 @@ router.put("/products/:id", productController.updateProduct);
 router.delete("/products/:id", productController.deleteProduct);
 
 // Variant related routes
-
 router.get("/variants", variantController.getAllVariants);
 router.get("/variants/:id", variantController.getVariant);
 router.post("/variants/:id", variantController.createVariant);
@@ -54,7 +53,6 @@ router.put("/variants/:id", variantController.updateVariant);
 router.delete("/variants/:id", variantController.deleteVariant);
 
 // Defects related routes
-
 router.get("/defects", defectController.getAllDefects);
 router.get("/defects/:id", defectController.getDefect);
 router.post("/defects/:id", defectController.createDefect);
@@ -62,12 +60,18 @@ router.put("/defects/:id", defectController.updateDefect);
 router.delete("/defects/:id", defectController.deleteDefect);
 
 // InventoryUnit related routes
-
 router.get("/InventoryUnits", inventoryUnitController.getUnits);
 router.post("/InventoryUnits/:id", inventoryUnitController.createUnit);
 router.put("/InventoryUnits", inventoryUnitController.updateUnit);
 router.put("/InventoryUnits/sellUnits", inventoryUnitController.sellUnits);
 router.delete("/InventoryUnits/deleteUnits", inventoryUnitController.deleteUnit);
+
+// Cart related routes
+router.get("/cart", cartController.getCart);
+router.post("/cart/:variantId", cartController.addToCart);
+router.patch("/cart/:variantId", cartController.updateItemQuantity);
+router.delete("/cart/:variantId", cartController.removeFromCart);
+router.delete("/cart", cartController.clearCart);
 
 // // Profile related routes
 // router.get("/profile", viewMyProfile);
@@ -75,13 +79,6 @@ router.delete("/InventoryUnits/deleteUnits", inventoryUnitController.deleteUnit)
 
 
 
-// // Cart related routes
-// router.get("/cart", getAllCarts);
-// router.get("/cart:id", getCart);
-// router.get("/cart", findCart);
-// router.post("/cart", createCart);
-// router.put("/cart:id", updateCart);
-// router.delete("/cart:id", deleteCart);
 
 
 // // Order related routes

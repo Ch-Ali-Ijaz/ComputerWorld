@@ -18,7 +18,7 @@ export async function getAllVariants(req, res){
     }catch(error){
         console.log("Error in getAllVariants controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error getting all variants."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -42,7 +42,7 @@ export async function getVariant(req, res){
     }catch(error){
         console.log("Error in getVariant controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error getting the variant."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -56,19 +56,19 @@ export async function createVariant(req, res){
 
         if(!newVariant){
             return res.status(400).json({
-                code: "FAILURE", message: "Product creation Failed."
+                code: "FAILURE", message: "Variant creation Failed."
             });
         }
         else{
             return res.status(200).json({
-                code: "SUCCESS", message: "Product creation Successfull."
+                code: "SUCCESS", message: "Variant creation Successfull."
             });
         }
 
     }catch(error){
         console.log("Error in createVariant controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error creating variant."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -92,7 +92,34 @@ export async function updateVariant(req, res){
 
     }catch(error){
         console.log("Error in updateVariant controller: ", error);
-        return res.status(500).json({ code: "ERROR", message: "Error updating the variant." });
+        return res.status(500).json({
+            code: "ERROR", message: "Internal Server Error."
+        });
+    }
+};
+
+// ---------------------------------------------------------------------------------------------------
+export async function setSellingPrice(req, res){
+    try{
+        const id = req.params.id;
+        const {sellingPrice, availableQuantity} = req.body;
+        const updatedProduct = await variantServices.setSellingPrice(id, sellingPrice, availableQuantity);
+
+        if(updatedProduct.modifiedCount === 0){
+            return res.status(404).json({
+                code: "NOT_FOUND", message: "Variant not found"
+            });
+        }else{
+            return res.status(404).json({
+                code: "SUCCESS", message: "Price set Successfully."
+            });
+        }
+
+    }catch(error){
+        console.log("Error in setSellingPrice controller: ", error);
+        return res.status(500).json({
+            code: "ERROR", message: "Internal Server Error."
+        });
     }
 };
 
@@ -115,7 +142,7 @@ export async function deleteVariant(req, res){
     }catch(error){
         console.log("Error in deleteVariant controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error deleting the variant."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };

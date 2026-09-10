@@ -19,7 +19,7 @@ export async function getUnits(req, res) {
     } catch (error) {
         console.log("Error in getAllUnits controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error getting all units."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -45,7 +45,7 @@ export async function createUnit(req, res) {
     } catch (error) {
         console.log("Error in createUnit controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error creating unit/units."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -76,7 +76,7 @@ export async function updateUnit(req, res) {
     } catch (error) {
         console.log("Error in updateUnit: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error updating a Unit."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -101,7 +101,7 @@ export async function sellUnits(req, res) {
     } catch (error) {
         console.log("Error in sellUnits controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error during selling units."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -125,7 +125,7 @@ export async function deleteUnit(req, res) {
     } catch (error) {
         console.log("Error in deleteUnit controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error during deleting a Unit."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };

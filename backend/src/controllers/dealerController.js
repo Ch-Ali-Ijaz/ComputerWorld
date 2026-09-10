@@ -18,7 +18,7 @@ export async function getAllDealers(req, res) {
     } catch (error) {
         console.log("Error in getAllDealers controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error getting dealers."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -42,7 +42,7 @@ export async function getDealer(req, res) {
     } catch (error) {
         console.log("Error in getDealer controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error getting a dealer."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -65,11 +65,10 @@ export async function createDealer(req, res) {
 
         }
 
-
     } catch (error) {
         console.log("Error in createDealer controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error creating a dealer."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -94,7 +93,7 @@ export async function updateDealer(req, res) {
     } catch (error) {
         console.log("Error in updateDealer controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error updating dealer."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -118,7 +117,7 @@ export async function deleteDealer(req, res) {
     } catch (error) {
         console.log("Error in createDealer controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error deleting a dealer."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };

@@ -8,7 +8,14 @@ import { isUnitUpdateAuthorized } from "../validators/authorityValidators.js";
 export async function getUnits(queries) {
     try {
         const filter = setFilterObject(queries);
-        return await InventoryUnit.find(filter);
+        return await InventoryUnit.find(filter).populate(
+            {
+                path: "variant_Id",
+                populate: {
+                    path: "product_Id"
+                }
+            }
+        );
 
     } catch (error) {
         console.log("Error in getAllUnits service: ", error);
@@ -66,7 +73,6 @@ export async function updateUnits(userRole, queries, newInfo) {
             customerWarranty: newInfo.customerWarranty,
             dealerWarranty: dealerWarranty,
             purchaseCost: newInfo.purchaseCost,
-            sellingPrice: newInfo.sellingPrice,
             soldPrice: newInfo.soldPrice
         };
 

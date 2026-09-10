@@ -1,5 +1,6 @@
 import Variant from "../models/Variant.js";
 import { setVariantId, setFilterObject } from "../utils/variantUtils.js";
+import { isVariantInputValid } from "../validators/variantValidators.js";
 
 export async function getAllVariants(queries){
     try{
@@ -29,18 +30,20 @@ export async function getVariant(id){
 // ---------------------------------------------------------------------------------------------------
 export async function createVariant(productId, variantInfo) {
     try{
+        isVariantInputValid(variantInfo);
+
         const variantId = setVariantId(variantInfo.ram, variantInfo.memory);
-        
         const newVariant = new Variant({
             product_Id: productId,
             variantId: variantId,
-            RAM: variantInfo.ram,
-            memory: variantInfo.memory,
-            quantity: variantInfo.quantity,
-            displaySize: variantInfo.displaySize,
+            RAM: Number(variantInfo.ram),
+            memory: Number(variantInfo.memory),
+            availableUnits: Number(0),
+            displaySize: Number(variantInfo.displaySize),
             displayType: variantInfo.displayType,
             processor: variantInfo.processor,
-            graphicCard: variantInfo.graphicCard,
+            graphicCardStatus: variantInfo.graphicCardStatus,
+            graphicCardMemory: Number(variantInfo.graphicCardMemory),
             storageType: variantInfo.storageType
         });
         
@@ -57,19 +60,22 @@ export async function createVariant(productId, variantInfo) {
 // ---------------------------------------------------------------------------------------------------
 export async function updateVariant(id, newInfo){
     try{
+        isVariantInputValid(newInfo);
+
         const variant = {
             product_Id: newInfo.productId,
             variantId: newInfo.variantId,
-            RAM: newInfo.ram,
-            memory: newInfo.memory,
-            quantity: newInfo.quantity,
-            displaySize: newInfo.displaySize,
+            RAM: Number(newInfo.ram),
+            memory: Number(newInfo.memory),
+            availableUnits: Number(newInfo.availableUnits),
+            displaySize: Number(newInfo.displaySize),
             displayType: newInfo.displayType,
             processor: newInfo.processor,
-            graphicCard: newInfo.graphicCard,
+            graphicCardStatus: newInfo.graphicCardStatus,
+            graphicCardMemory: Number(newInfo.graphicCardMemory),
             storageType: newInfo.storageType
         };
-        const updatedVariant = await Variant.findByIdAndUpdate(id, variant, {returnDocument: "After"});
+        const updatedVariant = await Variant.findByIdAndUpdate(id, variant, {returnDocument: "after"});
 
         return updatedVariant;
 
@@ -77,6 +83,24 @@ export async function updateVariant(id, newInfo){
         console.log("Error in updateVariant service: ", error);
         throw new Error(error);
     }
+};
+
+// ---------------------------------------------------------------------------------------------------
+export async function setSellingPrice(id, sellingPrice, availableQuantity){
+    try{
+        const variant = {
+        availableQuantity: Number(availableQuantity),
+        sellingPrice: Number(sellingPrice)
+    }
+    
+    return await Variant.updateOne(
+        {_id: id},
+        variant
+    );
+} catch(error){
+    console.log(error);
+    throw new Error("Error in setSellingPrice Service.");
+}
 };
 
 // ---------------------------------------------------------------------------------------------------

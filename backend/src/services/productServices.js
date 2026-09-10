@@ -1,13 +1,6 @@
-// models
 import Product from "../models/Product.js";
-
-// Utils
 import { setProductId, setFilterObject } from "../utils/productUtils.js";
 
-// Validators
-// import { validateStatusDefect } from "../validators/productValidators.js";
-
-// ----------------------------------------------------------------------------
 export async function getAllProducts(queries) {
     try{
         const filter = setFilterObject(queries);
