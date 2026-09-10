@@ -12,8 +12,8 @@ const variantSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    
-    quantity: {
+
+    availableUnits: {
         type: Number,
         required: true
     },
@@ -38,9 +38,13 @@ const variantSchema = new mongoose.Schema({
         required: true
     },
 
-    graphicCard: {
+    graphicCardStatus: {
         type: String,
+        enum: ["Not-Available", "Removable", "Non-Removable"],
         required: true
+    },
+    graphicCardMemory: {
+        type: Number
     },
 
     memory: {
@@ -50,7 +54,12 @@ const variantSchema = new mongoose.Schema({
 
     storageType: {
         type: String,
+        enum: ["SSD", "HHD", "both(SSD & HHD)"],
         required: true
+    },
+
+    sellingPrice: {
+        type: Number
     }
 },
     { timestamps: true }

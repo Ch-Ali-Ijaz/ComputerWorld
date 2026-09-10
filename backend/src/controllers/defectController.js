@@ -17,7 +17,7 @@ export async function getAllDefects(req, res) {
     }catch(error) {
         console.log("Error in getAllDefect controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error retrieving Defect"
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -40,12 +40,12 @@ export async function getDefect(req, res) {
     }catch(error) {
         console.log("Error in getDefect controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error retrieving Defect"
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
 
-// // ------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
 export async function createDefect(req, res) {
     try {
         const userId = req.user.userId;
@@ -65,12 +65,12 @@ export async function createDefect(req, res) {
     }catch(error) {
         console.log("Error in createDefect controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error creating Defect"
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
 
-// // ------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
 export async function updateDefect(req, res) {
     try {
         const userId = req.user.userId;
@@ -90,7 +90,7 @@ export async function updateDefect(req, res) {
     }catch(error) {
         console.log("Error in updateDefect controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error updating Defect"
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -113,7 +113,7 @@ export async function deleteDefect(req, res) {
     }catch(error) {
         console.log("Error in deleteDefect controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "Error deleting Defect."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };

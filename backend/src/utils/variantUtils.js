@@ -2,7 +2,7 @@ import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("1234567890", 6);
 
 export function setVariantId(ram, memory) {
-    const id = "VAR" + `-` + ram + `-` + memory + `-` + nanoid();
+    const id = "VAR" + `-` + nanoid() + `-` + ram + `-` + memory;
     return id;
 };
 
@@ -13,6 +13,9 @@ export function setFilterObject(queries) {
         return filter;
     }
 
+    if (queries.objecId) {
+        filter._id = queries.objecId;
+    }
     if (queries.productId) {
         filter.product_Id = queries.productId;
     }
@@ -49,8 +52,17 @@ export function setFilterObject(queries) {
             $option: "i"
         };
     }
-    if (queries.graphicCard) {
-        filter.graphicCard = queries.graphicCard;
+    if (queries.graphicCardStatus) {
+        filter.graphicCardStatus = queries.graphicCardStatus;
+    }
+    if (queries.minGraphicCardMemory || queries.maxGraphicCardMemory) {
+        filter.graphicCardMemory = {};
+        if (queries.minGraphicCardMemory) {
+            filter.graphicCardMemory.$gte = Number(queries.minGraphicCardMemory);
+        }
+        if (queries.maxGraphicCardMemory) {
+            filter.graphicCardMemory.$lte = Number(queries.maxGraphicCardMemory);
+        }
     }
     if (queries.storageType) {
         filter.storageType = {
@@ -59,12 +71,12 @@ export function setFilterObject(queries) {
         };
     }
     if (queries.minQuantity || queries.maxQuantity) {
-        filter.quantity = {};
+        filter.availableUnits = {};
         if (queries.minQuantity) {
-            filter.quantity.$gte = Number(queries.minQuantity);
+            filter.availableUnits.$gte = Number(queries.minQuantity);
         }
         if (queries.maxQuantity) {
-            filter.quantity.$lte = Number(queries.maxQuantity);
+            filter.availableUnits.$lte = Number(queries.maxQuantity);
         }
     }
     if (queries.minMemory || queries.maxMemory) {
@@ -74,6 +86,15 @@ export function setFilterObject(queries) {
         }
         if (queries.maxMemory) {
             filter.memory.$lte = Number(queries.maxMemory);
+        }
+    }
+    if (queries.minPrice || queries.maxPrice) {
+        filter.sellingPrice = {};
+        if (queries.minPrice) {
+            filter.sellingPrice.$gte = Number(queries.minPrice);
+        }
+        if (queries.maxPrice) {
+            filter.sellingPrice.$lte = Number(queries.maxPrice);
         }
     }
 

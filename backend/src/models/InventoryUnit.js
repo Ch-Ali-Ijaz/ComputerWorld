@@ -22,8 +22,7 @@ const inventoryUnitSchema = new mongoose.Schema({
     defect_Id: {
         type: mongoose.Schema.Types.ObjectId, 
         default: null,
-        ref: "Defect",
-        unique: true
+        ref: "Defect"
     },
     
     currentStatus: {
@@ -52,10 +51,7 @@ const inventoryUnitSchema = new mongoose.Schema({
     purchaseCost: {
         type: Number
     },
-
-    sellingPrice: {
-        type: Number
-    },
+    
 
     soldPrice: {
         type: Number

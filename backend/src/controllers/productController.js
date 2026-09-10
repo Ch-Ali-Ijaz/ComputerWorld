@@ -19,7 +19,7 @@ export async function getAllProducts(req, res) {
     } catch (error) {
         console.log("Error in getAllProducts controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "An error occured while finding products."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 }
@@ -44,7 +44,7 @@ export async function getProduct(req, res) {
     } catch (error) {
         console.log("Error in getProduct controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "An error occured while getting the product."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 }
@@ -69,7 +69,7 @@ export async function createProduct(req, res) {
     } catch (error) {
         console.log("Error in createProduct controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "An error occured while creating the product."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 }
@@ -95,7 +95,7 @@ export async function updateProduct(req, res) {
     } catch (error) {
         console.log("Error in updateProduct controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "An error occured while updating the product.", updatedProduct: updateProduct
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -120,7 +120,7 @@ export async function deleteProduct(req, res) {
     } catch (error) {
         console.log("Error in deleteProduct controller: ", error);
         return res.status(500).json({
-            code: "ERROR", message: "An error occured while deleting the product."    
+            code: "ERROR", message: "Internal Server Error."    
         });
     }
 };
