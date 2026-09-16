@@ -24,6 +24,32 @@ export async function getUnits(queries) {
 };
 
 // -------------------------------------------------------------------------
+export async function getAvailableUnits(requiredItems) {
+    try {
+        const availableUnits = [];
+        for (let i = 0; i < requiredItems.length; i++) {
+            const units = await InventoryUnit.find({
+                variant_Id: requiredItems[i].variantId, currentStatus: "Available"
+            }).select("_id").limit(requiredItems[i].quantity);
+
+            if (units.length < requiredItems[i].quantity) {
+                throw new Error(
+                    `Insufficient quantity for VariantId: ${requiredItems[i].variantId}`
+                );
+            }
+            
+            availableUnits.push(units);
+        }
+
+        return availableUnits;
+
+    } catch (error) {
+        console.log("Error in getAllUnits service: ", error);
+        throw new Error(error);
+    }
+};
+
+// -------------------------------------------------------------------------
 export async function createUnit(quantity, unitInfo) {
     try {
         isUnitInfoValid(unitInfo, []);
@@ -120,7 +146,7 @@ export async function deleteUnits(queries) {
     try {
         const filter = setFilterObject(queries);
         return await InventoryUnit.deleteMany(filter);
-    
+
     } catch (error) {
         console.log("Error in deleteUnit service: ", error);
         throw new Error(error);

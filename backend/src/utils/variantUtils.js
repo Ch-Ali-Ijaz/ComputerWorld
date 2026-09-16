@@ -13,8 +13,8 @@ export function setFilterObject(queries) {
         return filter;
     }
 
-    if (queries.objecId) {
-        filter._id = queries.objecId;
+    if (queries.objectId) {
+        filter._id = queries.objectId;
     }
     if (queries.productId) {
         filter.product_Id = queries.productId;
