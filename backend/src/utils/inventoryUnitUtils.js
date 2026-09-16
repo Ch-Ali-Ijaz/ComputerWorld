@@ -22,8 +22,8 @@ export function setFilterObject(queries) {
         return filter;
     }
 
-    if (queries.objecId) {
-        filter._id = queries.objecId;
+    if (queries.objectId) {
+        filter._id = queries.objectId;
     }
     if (queries.unitId) {
         filter.unitId = queries.unitId;
@@ -101,7 +101,7 @@ export function setCustomerWarranty(newStatus) {
 
 // ---------------------------------------------------------
 export function setDealerWarranty(startDate, numOfDays) {
-    if(!startDate && !numOfDays){
+    if (!startDate && !numOfDays) {
         return;
     }
 

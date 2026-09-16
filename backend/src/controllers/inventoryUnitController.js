@@ -28,7 +28,6 @@ export async function getUnits(req, res) {
 export async function createUnit(req, res) {
     try {
         const unitInfo = req.body;
-        unitInfo.variantId = req.params.id;
 
         const newUnits = await inventoryUnitServices.createUnit(unitInfo.quantity, unitInfo);
 

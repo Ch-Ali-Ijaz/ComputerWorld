@@ -10,7 +10,7 @@ export async function getAllVariants(req, res){
                 code: "NOT_FOUND", message: "No variants found"
             });
         }else{
-            return res.status(404).json({
+            return res.status(200).json({
                 code: "SUCCESS", variants: variants
             });
         }
