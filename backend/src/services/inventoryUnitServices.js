@@ -24,21 +24,15 @@ export async function getUnits(queries) {
 };
 
 // -------------------------------------------------------------------------
-export async function getAvailableUnits(requiredItems) {
+export async function getAvailableUnits(variantId, quantity) {
     try {
-        const availableUnits = [];
-        for (let i = 0; i < requiredItems.length; i++) {
-            const units = await InventoryUnit.find({
-                variant_Id: requiredItems[i].variantId, currentStatus: "Available"
-            }).select("_id").limit(requiredItems[i].quantity);
+        const filter = setFilterObject({ variantId, currentStatus: "Available" });
+        const availableUnits = await InventoryUnit.find(filter).select("_id").limit(quantity);
 
-            if (units.length < requiredItems[i].quantity) {
-                throw new Error(
-                    `Insufficient quantity for VariantId: ${requiredItems[i].variantId}`
-                );
-            }
-            
-            availableUnits.push(units);
+        if (availableUnits.length < quantity) {
+            throw new Error(
+                `Insufficient quantity for VariantId: ${variantId}`
+            );
         }
 
         return availableUnits;

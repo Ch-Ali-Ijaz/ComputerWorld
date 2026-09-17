@@ -61,7 +61,6 @@ router.delete("/defects/:id", defectController.deleteDefect);
 
 // InventoryUnit related routes
 router.get("/InventoryUnits", inventoryUnitController.getUnits);
-router.get("/InventoryUnits/getAvailableUnits", inventoryUnitController.getAvailableUnits);
 router.post("/InventoryUnits", inventoryUnitController.createUnit);
 router.put("/InventoryUnits", inventoryUnitController.updateUnit);
 router.patch("/InventoryUnits/sellUnits", inventoryUnitController.sellUnits);
