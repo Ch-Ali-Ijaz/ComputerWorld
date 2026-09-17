@@ -46,10 +46,10 @@ router.put("/products/:id", productController.updateProduct);
 router.delete("/products/:id", productController.deleteProduct);
 
 // Variant related routes
-router.get("/variants", variantController.getAllVariants);
-router.get("/variants/:id", variantController.getVariant);
+router.get("/variants", variantController.getVariants);
 router.post("/variants/:id", variantController.createVariant);
 router.put("/variants/:id", variantController.updateVariant);
+router.patch("/variants/:id", variantController.setSellingPrice);
 router.delete("/variants/:id", variantController.deleteVariant);
 
 // Defects related routes

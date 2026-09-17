@@ -1,21 +1,21 @@
 import * as variantServices from "../services/variantServices.js";
 
-export async function getAllVariants(req, res){
-    try{
+export async function getVariants(req, res) {
+    try {
         const queries = req.query;
-        const variants = await variantServices.getAllVariants(queries);
+        const variants = await variantServices.getVariants(queries);
 
-        if(variants.length === 0){
+        if (variants.length === 0) {
             return res.status(404).json({
                 code: "NOT_FOUND", message: "No variants found"
             });
-        }else{
+        } else {
             return res.status(200).json({
                 code: "SUCCESS", variants: variants
             });
         }
 
-    }catch(error){
+    } catch (error) {
         console.log("Error in getAllVariants controller: ", error);
         return res.status(500).json({
             code: "ERROR", message: "Internal Server Error."
@@ -24,48 +24,24 @@ export async function getAllVariants(req, res){
 };
 
 // ---------------------------------------------------------------------------------------------------
-export async function getVariant(req, res){
-    try{
-        const id = req.params.id;
-        const variant = await variantServices.getVariant(id);
-
-        if(!variant){
-            return res.status(404).json({
-                code: "NOT_FOUND", message: "Variant not found."
-            });
-        }else{
-            return res.status(200).json({
-                code: "SUCCESS", variant: variant
-            });
-        }
-
-    }catch(error){
-        console.log("Error in getVariant controller: ", error);
-        return res.status(500).json({
-            code: "ERROR", message: "Internal Server Error."
-        });
-    }
-};
-
-// ---------------------------------------------------------------------------------------------------
-export async function createVariant(req, res){
-    try{
+export async function createVariant(req, res) {
+    try {
         const productId = req.params.id;
         const variantInfo = req.body;
         const newVariant = await variantServices.createVariant(productId, variantInfo);
 
-        if(!newVariant){
+        if (!newVariant) {
             return res.status(400).json({
                 code: "FAILURE", message: "Variant creation Failed."
             });
         }
-        else{
+        else {
             return res.status(200).json({
                 code: "SUCCESS", message: "Variant creation Successfull."
             });
         }
 
-    }catch(error){
+    } catch (error) {
         console.log("Error in createVariant controller: ", error);
         return res.status(500).json({
             code: "ERROR", message: "Internal Server Error."
@@ -74,23 +50,23 @@ export async function createVariant(req, res){
 };
 
 // ---------------------------------------------------------------------------------------------------
-export async function updateVariant(req, res){
-    try{
+export async function updateVariant(req, res) {
+    try {
         const id = req.params.id;
         const newInfo = req.body;
         const updatedProduct = await variantServices.updateVariant(id, newInfo);
 
-        if(!updatedProduct){
+        if (!updatedProduct) {
             return res.status(404).json({
                 code: "NOT_FOUND", message: "Variant not found"
             });
-        }else{
+        } else {
             return res.status(404).json({
                 code: "SUCCESS", message: "Variant updated Successfully.", updatedProduct: updatedProduct
             });
         }
 
-    }catch(error){
+    } catch (error) {
         console.log("Error in updateVariant controller: ", error);
         return res.status(500).json({
             code: "ERROR", message: "Internal Server Error."
@@ -99,23 +75,23 @@ export async function updateVariant(req, res){
 };
 
 // ---------------------------------------------------------------------------------------------------
-export async function setSellingPrice(req, res){
-    try{
+export async function setSellingPrice(req, res) {
+    try {
         const id = req.params.id;
-        const {sellingPrice, availableQuantity} = req.body;
-        const updatedProduct = await variantServices.setSellingPrice(id, sellingPrice, availableQuantity);
+        const { sellingPrice, availableUnits } = req.body;
+        const updatedProduct = await variantServices.setSellingPrice(id, sellingPrice, availableUnits);
 
-        if(updatedProduct.modifiedCount === 0){
+        if (updatedProduct.modifiedCount === 0) {
             return res.status(404).json({
                 code: "NOT_FOUND", message: "Variant not found"
             });
-        }else{
-            return res.status(404).json({
+        } else {
+            return res.status(200).json({
                 code: "SUCCESS", message: "Price set Successfully."
             });
         }
 
-    }catch(error){
+    } catch (error) {
         console.log("Error in setSellingPrice controller: ", error);
         return res.status(500).json({
             code: "ERROR", message: "Internal Server Error."
@@ -124,22 +100,22 @@ export async function setSellingPrice(req, res){
 };
 
 // ---------------------------------------------------------------------------------------------------
-export async function deleteVariant(req, res){
-    try{
+export async function deleteVariant(req, res) {
+    try {
         const id = req.params.id;
         const deletedVariant = await variantServices.deleteVariant(id);
 
-        if(!deletedVariant){
+        if (!deletedVariant) {
             return res.status(404).json({
                 code: "NOT_FOUND", message: "Variant not found."
             });
-        }else{
+        } else {
             return res.status(404).json({
                 code: "SUCCESS", message: "Variant Deletion Successfull", deletedVariant: deletedVariant
             });
         }
 
-    }catch(error){
+    } catch (error) {
         console.log("Error in deleteVariant controller: ", error);
         return res.status(500).json({
             code: "ERROR", message: "Internal Server Error."
