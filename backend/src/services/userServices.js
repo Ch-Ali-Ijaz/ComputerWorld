@@ -38,8 +38,11 @@ export async function getUser(id) {
 // -------------------------------------------------------------------------------
 export async function getUserIds(queries) {
     try {
+        if(Object.keys(queries).length === 0){
+            return [];
+        }
+        
         const filter = setFilterObject(queries);
-
         const users = await User.find(filter);
         if(users.length === 0){
             throw new Error("No user found.");
