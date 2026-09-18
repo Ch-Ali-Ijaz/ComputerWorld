@@ -34,7 +34,7 @@ export function setFilterObject(queries) {
     if (queries.displayType) {
         filter.displayType = {
             $regex: queries.displayType,
-            $option: "i"
+            $options: "i"
         };
     }
     if (queries.minRAM || queries.maxRAM) {
@@ -49,7 +49,7 @@ export function setFilterObject(queries) {
     if (queries.processor) {
         filter.processor = {
             $regex: queries.processor,
-            $option: "i"
+            $options: "i"
         };
     }
     if (queries.graphicCardStatus) {
@@ -67,7 +67,7 @@ export function setFilterObject(queries) {
     if (queries.storageType) {
         filter.storageType = {
             $regex: queries.storageType,
-            $option: "i"
+            $options: "i"
         };
     }
     if (queries.minQuantity || queries.maxQuantity) {
