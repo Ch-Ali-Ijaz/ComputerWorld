@@ -31,6 +31,26 @@ export async function getProduct(id) {
 }
 
 // ----------------------------------------------------------------------------
+export async function getProductIds(queries) {
+    try{
+        if(Object.keys(queries).length === 0){
+            return [];
+        }
+        
+        const filter = setFilterObject(queries);
+        const products = await Product.find(filter);
+        const productIds = products.map(product => product._id);
+        
+        return productIds;
+    }catch(error){
+
+        console.log("Error in getProduct Service");
+        throw new Error(error);
+    }
+
+}
+
+// ----------------------------------------------------------------------------
 export async function createProduct(productInfo) {
     try {
         const productId = setProductId(productInfo.brand, productInfo.series);
