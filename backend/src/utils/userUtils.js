@@ -73,3 +73,38 @@ export async function filterUser(searchBy, value) {
     }
 
 };
+
+// ----------------------------------------------------------------
+export function setFilterObject(queries) {
+    const filter = {};
+
+    if(Object.keys(queries).lenght === 0){
+        return filter;
+    }
+    if(queries.objectId){
+        filter._id = queries.objectId;
+    }
+    if(queries.userId){
+        filter.userId = queries.userId;
+    }
+    if(queries.email){
+        filter.userEmail = queries.email
+    }
+    if(queries.name){
+        filter.userName = {
+            $regex: queries.name,
+            $options: "i"
+        };
+    }
+    if(queries.role){
+        filter.userRole = queries.role;
+    }
+    if(queries.CNIC) {
+        filter.userCNIC = queries.CNIC;
+    }
+    if(queries.contact){
+        filter.userContact = queries.contact;
+    }
+    return filter;
+
+};
