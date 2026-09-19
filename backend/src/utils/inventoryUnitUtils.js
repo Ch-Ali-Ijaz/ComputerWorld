@@ -63,20 +63,20 @@ export function setFilterObject(queries) {
     if (queries.minPurchaseCost || queries.maxPurchaseCost) {
         filter.purchaseCost = {};
 
-        if (minPurchaseCost) {
+        if (queries.minPurchaseCost) {
             filter.purchaseCost.$gte = Number(queries.minPurchaseCost);
         }
-        if (maxPurchaseCost) {
+        if (queries.maxPurchaseCost) {
             filter.purchaseCost.$lte = Number(queries.maxPurchaseCost);
         }
     }
     if (queries.minSoldPrice || queries.maxSoldPrice) {
         filter.soldPrice = {};
 
-        if (minSoldPrice) {
+        if (queries.minSoldPrice) {
             filter.soldPrice.$gte = Number(queries.minSoldPrice);
         }
-        if (maxSoldPrice) {
+        if (queries.maxSoldPrice) {
             filter.soldPrice.$lte = Number(queries.maxSoldPrice);
         }
     }

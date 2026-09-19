@@ -18,12 +18,12 @@ export async function getVariants(queries) {
 // ---------------------------------------------------------------------------------------------------
 export async function getVariantIds(queries) {
     try {
-        if(Object.keys(queries).length === 0){
-            return [];
-        }
-
         const filter = setFilterObject(queries);
         const variants = await Variant.find(filter);
+        if(variants.length === 0){
+            throw new Error("No such variant found.");
+        }
+
         const variantIds = variants.map(variant => variant._id);
 
         return variantIds;

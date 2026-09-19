@@ -26,17 +26,13 @@ export async function getUnits(queries) {
 // -------------------------------------------------------------------------
 export async function getUnitIds(queries) {
     try {
-        if(Object.keys(queries).length === 0){
-            return [];
-        }
-
         const filter = setFilterObject(queries);
         const units = await InventoryUnit.find(filter);
         if(units.length === 0){
             throw new Error("No such unit found.");
         }
-        const unitIds = units.map(unit => unit._id);
         
+        const unitIds = units.map(unit => unit._id);
         return unitIds;
 
     } catch (error) {

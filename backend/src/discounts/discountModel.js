@@ -23,11 +23,10 @@ const discountSchema = new mongoose.Schema({
     targetType: {
         type: String,
         required: true,
-        enum: ["Product", "Variant", "InventoryUnit", "Dealer"]
+        enum: ["All", "Product", "Variant", "InventoryUnit"]
     },
     targetIds: [{
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         refPath: "targetType"
     }],
     applicableTo: {
@@ -70,6 +69,6 @@ const discountSchema = new mongoose.Schema({
 },
 { timestamps: true });
 
-const Discount = mongoose.Model("Discount", discountSchema);
+const Discount = mongoose.model("Discount", discountSchema);
 
 export default Discount;
