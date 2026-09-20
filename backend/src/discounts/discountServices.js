@@ -3,6 +3,18 @@ import * as discountUtils from "./discountUtils.js";
 import { isDiscountInputValid } from "./discountValidators.js";
 import { resolveTargetIds, resolveUserIds } from "./disountResolvers.js";
 
+export async function getDiscounts(queries) {
+    try{
+        const filter = discountUtils.setDiscountFilter(queries);
+        return await Discount.find(filter);
+
+    } catch(error) {
+        console.log("Error in getDiscounts service");
+        throw new Error(error);
+    }
+};
+
+// -----------------------------------------------------------------------------------------------------------
 export async function createDiscount(discountInfo){
     try{
         isDiscountInputValid(discountInfo);

@@ -68,7 +68,7 @@ router.patch("/InventoryUnits/sellUnits", inventoryUnitController.sellUnits);
 router.delete("/InventoryUnits", inventoryUnitController.deleteUnit);
 
 // InventoryUnit related routes
-// router.get("/InventoryUnits", inventoryUnitController.getUnits);
+router.get("/Discounts", discountController.getDiscounts);
 router.post("/Discounts", discountController.createDiscount);
 // router.put("/InventoryUnits", inventoryUnitController.updateUnit);
 // router.patch("/InventoryUnits/sellUnits", inventoryUnitController.sellUnits);
