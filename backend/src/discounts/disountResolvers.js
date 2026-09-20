@@ -4,6 +4,10 @@ import { getUnitIds } from "../services/inventoryUnitServices.js";
 import { getUserIds } from "../services/userServices.js";
 
 export async function resolveTargetIds(targetType, targetCriteria) {
+    if (!targetType) {
+        return;
+    }
+
     let targetIds;
     switch (targetType) {
         case "All":
@@ -20,7 +24,7 @@ export async function resolveTargetIds(targetType, targetCriteria) {
             break;
         default:
             throw new Error(`Target type ${targetType}`);
-            // throw new Error("Invalid targetType.");
+        // throw new Error("Invalid targetType.");
     }
 
     return targetIds;
@@ -29,6 +33,10 @@ export async function resolveTargetIds(targetType, targetCriteria) {
 
 // ---------------------------------------------------------------------
 export async function resolveUserIds(applicableTo, userCriteria) {
+    if (!applicableTo) {
+        return;
+    }
+
     let userIds;
     switch (applicableTo) {
         case "All":

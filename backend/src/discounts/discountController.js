@@ -1,4 +1,5 @@
 import * as discountServices from "./discountServices.js";
+import * as discountWorkflows from "./discountWorkflows.js";
 
 export async function getDiscounts(req, res) {
     try{
@@ -23,6 +24,7 @@ export async function getDiscounts(req, res) {
     }
 }
 
+// ----------------------------------------------------------------------------------------
 export async function createDiscount(req, res) {
     try{
         const discountInfo = req.body;
@@ -38,4 +40,23 @@ export async function createDiscount(req, res) {
             code: "ERROR", message: "Internal Server Error."
         });
     }
-}
+};
+
+// ----------------------------------------------------------------------------------------
+export async function updateDiscount(req, res) {
+    try{
+        const objectId = req.params.id;
+        const data = req.body;
+        const updatedDiscount = await discountWorkflows.updateWorkflow(objectId, data);
+
+        return res.status(200).json({
+            code: "SUCCESS", message: "Update Successfull.", updatedDiscount: updatedDiscount
+        });
+    
+    } catch(error) {
+        console.log("Error in updateDiscount controller.", error);
+        return res.status(500).json({
+            code: "ERROR", message: "Internal Server Error."
+        });
+    }
+};

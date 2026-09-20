@@ -21,15 +21,19 @@ export function setDiscountId(targetType) {
         case "Dealer":
             prefix = "DLR";
             break;
-            default:
-                throw new Error("Invalid targetType.");
-            }
+        default:
+            throw new Error("Invalid targetType.");
+    }
 
     return prefix + "-" + nanoid();
 };
 
 // ------------------------------------------------------------
 export function setDiscountCode(discountName) {
+    if (!discountName) {
+        return;
+    }
+
     return discountName + nanoid();
 };
 
