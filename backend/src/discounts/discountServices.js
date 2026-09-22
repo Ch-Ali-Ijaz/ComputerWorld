@@ -67,7 +67,7 @@ export async function updateDiscount(objectId, newInfo) {
 
 // -----------------------------------------------------------------------------------------------------------
 export async function toggleActiveField(objectId) {
-
+    
     let toggle;
     const discount = await Discount.findById(objectId);
     if (discount.isActive === true) {
@@ -75,7 +75,7 @@ export async function toggleActiveField(objectId) {
     } else {
         toggle = true;
     }
-
+    
     return await Discount.findByIdAndUpdate(
         objectId,
         {
@@ -83,5 +83,10 @@ export async function toggleActiveField(objectId) {
         },
         { returnDocument: "after" }
     );
-
+    
 };
+
+// -----------------------------------------------------------------------------------------------------------
+export async function deleteDiscount(objectId) {
+    return await Discount.findByIdAndDelete(objectId);
+}

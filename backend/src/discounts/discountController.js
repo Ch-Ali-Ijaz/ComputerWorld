@@ -52,7 +52,7 @@ export async function updateDiscount(req, res) {
         return res.status(200).json({
             code: "SUCCESS", message: "Update Successfull.", updatedDiscount: updatedDiscount
         });
-    
+        
     } catch(error) {
         console.log("Error in updateDiscount controller.", error);
         return res.status(500).json({
@@ -60,3 +60,27 @@ export async function updateDiscount(req, res) {
         });
     }
 };
+
+// ----------------------------------------------------------------------------------------
+export async function deleteDiscount(req, res) {
+    try{
+        const objectId = req.params.id;
+        const deletedDiscount = await discountServices.deleteDiscount(objectId);
+
+        if(!deletedDiscount) {
+            return res.status(404).json({
+                code: "FAILURE", message: "Discount not found."
+            });
+        } else {
+            return res.status(200).json({
+                code: "SUCCESS", message: "Delete Successfull.", deletedDiscount: deletedDiscount
+            });
+        }
+
+    }catch(error) {
+        console.log("Error in deleteDiscount controller.", error);
+        return res.status(500).json({
+            code: "ERROR", message: "Internal Server Error."
+        });
+    }
+}

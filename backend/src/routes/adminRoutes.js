@@ -67,11 +67,11 @@ router.put("/InventoryUnits", inventoryUnitController.updateUnit);
 router.patch("/InventoryUnits/sellUnits", inventoryUnitController.sellUnits);
 router.delete("/InventoryUnits", inventoryUnitController.deleteUnit);
 
-// Discount related routes
+// Discounts related routes
 router.get("/Discounts", discountController.getDiscounts);
 router.post("/Discounts", discountController.createDiscount);
 router.put("/Discounts/:id", discountController.updateDiscount);
-// router.delete("/Discounts", discountController.deleteDiscount);
+router.delete("/Discounts/:id", discountController.deleteDiscount);
 
 // Cart related routes
 router.get("/cart", cartController.getCart);
