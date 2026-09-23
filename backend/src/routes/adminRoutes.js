@@ -12,6 +12,7 @@ import * as variantController from "../controllers/variantController.js";
 import * as defectController from "../controllers/defectController.js";
 import * as inventoryUnitController from "../controllers/inventoryUnitController.js";
 import * as cartController from "../controllers/cartController.js";
+import * as discountController from "../discounts/discountController.js";
 
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
 // import {getAllOrders, getOrder, createOrder, updateOrder, deleteOrder} from "../controllers/orderController.js";
@@ -65,6 +66,12 @@ router.post("/InventoryUnits", inventoryUnitController.createUnit);
 router.put("/InventoryUnits", inventoryUnitController.updateUnit);
 router.patch("/InventoryUnits/sellUnits", inventoryUnitController.sellUnits);
 router.delete("/InventoryUnits", inventoryUnitController.deleteUnit);
+
+// Discounts related routes
+router.get("/Discounts", discountController.getDiscounts);
+router.post("/Discounts", discountController.createDiscount);
+router.put("/Discounts/:id", discountController.updateDiscount);
+router.delete("/Discounts/:id", discountController.deleteDiscount);
 
 // Cart related routes
 router.get("/cart", cartController.getCart);

@@ -24,6 +24,24 @@ export async function getUnits(queries) {
 };
 
 // -------------------------------------------------------------------------
+export async function getUnitIds(queries) {
+    try {
+        const filter = setFilterObject(queries);
+        const units = await InventoryUnit.find(filter);
+        if(units.length === 0){
+            throw new Error("No such unit found.");
+        }
+        
+        const unitIds = units.map(unit => unit._id);
+        return unitIds;
+
+    } catch (error) {
+        console.log("Error in getAllUnits service: ", error);
+        throw new Error(error);
+    }
+};
+
+// -------------------------------------------------------------------------
 export async function getAvailableUnits(variantId, quantity) {
     try {
         const filter = setFilterObject({ variantId, currentStatus: "Available" });

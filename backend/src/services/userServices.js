@@ -1,5 +1,5 @@
 import User from "../models/User.js"
-import { generateUserId, filterUser } from "../utils/userUtils.js"
+import { generateUserId, filterUser, setFilterObject } from "../utils/userUtils.js"
 import { roleValidator, cnicValidator, phoneValidator } from "../validators/userValidator.js"
 
 // -------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ export async function getAllUsers(filterQuery) {
     }
 };
 
-// // -------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
 export async function getUser(id) {
     try {
 
@@ -31,6 +31,24 @@ export async function getUser(id) {
 
     } catch (error) {
         console.log("Error in getCustomer service: ", error);
+        throw new Error(error);
+    }
+}
+
+// -------------------------------------------------------------------------------
+export async function getUserIds(queries) {
+    try {
+        const filter = setFilterObject(queries);
+        const users = await User.find(filter);
+        if(users.length === 0){
+            throw new Error("No such user found.");
+        }
+
+        const userIds = users.map(user => user._id);
+        return userIds;
+
+    } catch (error) {
+        console.log("Error in getUserIds service: ", error);
         throw new Error(error);
     }
 }
