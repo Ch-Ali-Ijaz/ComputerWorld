@@ -8,6 +8,12 @@ export async function getDiscounts(queries) {
     return await Discount.find(filter);
 
 };
+export async function getDiscountByCode(discountCode) {
+    return await Discount.findOne({
+        discountCode: discountCode
+    });
+
+};
 
 // -----------------------------------------------------------------------------------------------------------
 export async function createDiscount(discountInfo) {

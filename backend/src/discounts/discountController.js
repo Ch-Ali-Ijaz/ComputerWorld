@@ -22,7 +22,7 @@ export async function getDiscounts(req, res) {
             code: "ERROR", message: "Internal Server Error."
         });
     }
-}
+};
 
 // ----------------------------------------------------------------------------------------
 export async function createDiscount(req, res) {
@@ -83,4 +83,4 @@ export async function deleteDiscount(req, res) {
             code: "ERROR", message: "Internal Server Error."
         });
     }
-}
+};

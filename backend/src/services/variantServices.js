@@ -16,6 +16,22 @@ export async function getVariants(queries) {
 };
 
 // ---------------------------------------------------------------------------------------------------
+export async function getProductId(objectId) {
+    try {
+        const variant = await Variant.findById(objectId);
+        if(!variant) {
+            return;
+        }
+
+        return variant.product_Id;
+
+    } catch (error) {
+        console.log("Error in getAllVariants service: ", error);
+        throw new Error(error);
+    }
+};
+
+// ---------------------------------------------------------------------------------------------------
 export async function getVariantIds(queries) {
     try {
         const filter = setFilterObject(queries);
@@ -23,7 +39,7 @@ export async function getVariantIds(queries) {
         if(variants.length === 0){
             throw new Error("No such variant found.");
         }
-
+        
         const variantIds = variants.map(variant => variant._id);
 
         return variantIds;

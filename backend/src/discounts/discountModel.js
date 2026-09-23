@@ -23,7 +23,7 @@ const discountSchema = new mongoose.Schema({
     targetType: {
         type: String,
         required: true,
-        enum: ["All", "Product", "Variant", "InventoryUnit"]
+        enum: ["All", "Product", "Variant"]
     },
     targetIds: [{
         type: mongoose.Schema.Types.ObjectId,
