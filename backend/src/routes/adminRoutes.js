@@ -13,9 +13,9 @@ import * as defectController from "../controllers/defectController.js";
 import * as inventoryUnitController from "../controllers/inventoryUnitController.js";
 import * as cartController from "../controllers/cartController.js";
 import * as discountController from "../discounts/discountController.js";
+import * as orderController from "../orders/orderController.js";
 
 // import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
-// import {getAllOrders, getOrder, createOrder, updateOrder, deleteOrder} from "../controllers/orderController.js";
 // import {getAllDeliveries, getDelivery, createDelivery, updateDelivery, deleteDelivery} from "../controllers/deliveryController.js";
 // import {getAllReviews, getReview, createReview, updateReview, deleteReview, getAllReReview} from "../controllers/reviewController.js";
 
@@ -73,6 +73,7 @@ router.post("/Discounts", discountController.createDiscount);
 router.put("/Discounts/:id", discountController.updateDiscount);
 router.delete("/Discounts/:id", discountController.deleteDiscount);
 
+
 // Cart related routes
 router.get("/cart", cartController.getCart);
 router.post("/cart/:variantId", cartController.addToCart);
@@ -80,20 +81,11 @@ router.patch("/cart/:variantId", cartController.updateItemQuantity);
 router.delete("/cart/:variantId", cartController.removeFromCart);
 router.delete("/cart", cartController.clearCart);
 
-// // Profile related routes
-// router.get("/profile", viewMyProfile);
-// router.put("/profile/:id", updateMyProfile);
-
-
-
-
-
-// // Order related routes
-// router.get("/orders", getAllOrders);
-// router.get("/orders/:id", getOrder);
-// router.post("/orders", createOrder);
-// router.put("/orders/:id", updateOrder);
-// router.get("/orders/:id", deleteOrder);
+// Order related routes
+router.get("/orders", orderController.getOrders);
+router.post("/orders", orderController.placeOrder);
+router.put("/orders/:id", orderController.updateOrder);
+router.delete("/orders/:id", orderController.deleteOrder);
 
 // // Delivery related routes
 // router.get("/delivery", getAllDeliveries);
@@ -108,5 +100,9 @@ router.delete("/cart", cartController.clearCart);
 // router.post("/reviews", createReview);
 // router.put("/reviews/:id", updateReview);
 // router.get("/reviews/:id", deleteReview);
+
+// // Profile related routes
+// router.get("/profile", viewMyProfile);
+// router.put("/profile/:id", updateMyProfile);
 
 export default router

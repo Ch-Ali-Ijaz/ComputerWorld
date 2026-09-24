@@ -26,7 +26,7 @@ export function calculateDiscount(discount, item) {
 // -------------------------------------------------------------------------
 function calculateDiscountByFixed(discount, item) {
     item.totalPrice = (item.unitPrice - discount.value) * item.quantity;
-    item.totalDiscount = item.subTotal - item.totalPrice;
+    item.discount = item.subTotal - item.totalPrice;
     return item;
 };
 
@@ -35,6 +35,6 @@ function calculateDiscountByPercentage(discount, item) {
 
     const applicableDiscount = (discount.value/100) * item.unitPrice;
     item.totalPrice = (item.unitPrice - applicableDiscount) *  item.quantity;
-    item.totalDiscount = item.subTotal - item.totalPrice;
+    item.discount = item.subTotal - item.totalPrice;
     return item;
 };

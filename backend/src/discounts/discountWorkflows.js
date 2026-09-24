@@ -23,6 +23,10 @@ export async function updateWorkflow(objectId, data) {
 // ----------------------------------------------------------------------------------
 export async function applyDiscountByCode(discountCode, userId, items) {
 
+    if(!discountCode){
+        return items;
+    }
+
     const discount = await discountServices.getDiscountByCode(discountCode);
     if (!discount) {
         throw new Error("Discount not found.");

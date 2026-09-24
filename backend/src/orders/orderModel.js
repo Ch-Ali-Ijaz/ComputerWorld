@@ -8,11 +8,13 @@ const orderSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
+        default: null,
         ref: "User"
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        default: null
     },
     deliveryPersonId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -26,16 +28,18 @@ const orderSchema = new mongoose.Schema({
     },
     orderStatus: {
         type: String,
-        enum: ["Completed", "In-Progress", "Waiting-to-Deliver", "On-The-Way", "Delivered"],
+        enum: ["Completed", "In-Progress", "Ready-to-Deliver", "On-The-Way", "Canceled"],
         required: true
     },
-    items: [
+    orderedItems: [
         {
             variantId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Variant" },
             unitIds: [{ type: mongoose.Schema.Types.ObjectId, required: true, ref: "InventoryUnit" }],
             quantity: { type: Number, required: true },
             unitPrice: {type: Number, required: true},
-            totalPrice: { type: Number, required: true }
+            subTotal: { type: Number, required: true, min: 0 },
+            discount: {type: Number, required: true, default: 0, min: 0},
+            totalPrice: { type: Number, required: true, min: 0 }
         }
     ],
     paymentMethod: {
@@ -51,16 +55,20 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    discount: {
+    totalDiscount: {
         type: Number,
         default: 0,
         min: 0
     },
+    deliveryAddress: {
+        type: String
+    },
     deliveryFee: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0
     },
-    totalPrice: {
+    payableAmount: {
         type: Number,
         required: true
     }
