@@ -2,7 +2,7 @@ import Order from "./orderModel.js";
 import * as orderUtils from "./orderUtils.js";
 import * as orderCalculations from "./orderCalculations.js";
 import { buildItems } from "../services/shared/itemsBuilder.js";
-import { isOrderInfoValid } from "./orderValidators.js";
+// import orderValidator from "./orderValidators.js";
 import { applyDiscountByCode } from "../discounts/discountWorkflows.js";
 
 export async function getOrders(queries) {
@@ -14,7 +14,6 @@ export async function getOrders(queries) {
 // -----------------------------------------------------------------------------------------------------
 export async function onlineOrder(userId, orderInfo) {
 
-    isOrderInfoValid(orderInfo);
     const orderId = orderUtils.setOrderId();
     const orderType = "online";
     const customerId = userId;
@@ -70,6 +69,64 @@ export async function walkInOrder(user, orderInfo) {
     });
 
     return await newOrder.save();
+};
+
+// -----------------------------------------------------------------------------------------------------
+export async function updateOrderStatus(user, objectId, newStatus) {
+    
+    const updatedOrder = {
+        orderStatus: newStatus
+    };
+
+    return await Order.findByIdAndUpdate(objectId, updatedOrder, {returnDocument: "after"});
+};
+
+// -----------------------------------------------------------------------------------------------------
+export async function acceptForDelivery(user, objectId) {
+    
+    const updatedOrder = {
+        deliveryPersonId: user.userId,
+        orderStatus: "On-The-Way"
+    };
+
+    return await Order.findByIdAndUpdate(objectId, updatedOrder, {returnDocument: "after"});
+};
+
+// -----------------------------------------------------------------------------------------------------
+export async function cancelOrder(user, objectId) {
+
+    const updatedOrder = {
+        orderStatus: "Canceled"
+    };
+
+    return await Order.findByIdAndUpdate(objectId, updatedOrder, {returnDocument: "after"});
+};
+
+// -----------------------------------------------------------------------------------------------------
+export async function updatePaymentStatus(user, objectId) {
+
+    const updatedOrder = {
+        paymentStatus: "Paid",
+    }
+
+    return await Order.findByIdAndUpdate(
+        objectId,
+        updatedOrder,
+        {returnDocument: "after"}
+    );
+};
+// -----------------------------------------------------------------------------------------------------
+export async function updateAddress(user, objectId, newAddress) {
+
+    const updatedOrder = {
+        deliveryAddress: newAddress,
+    }
+
+    return await Order.findByIdAndUpdate(
+        objectId,
+        updatedOrder,
+        {returnDocument: "after"}
+    );
 };
 
 // -----------------------------------------------------------------------------------------------------

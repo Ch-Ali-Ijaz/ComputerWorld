@@ -46,6 +46,20 @@ export async function placeOrder(req, res) {
 
 export async function updateOrder(req, res) {
     try {
+        const user = req.user;
+        const objectId = req.params.id;
+        const newInfo = req.body;
+        const updatedOrder = await orderWorkflow.updateOrder(user, objectId, newInfo);
+        
+        if(!updatedOrder) {
+            return res.status(404).json({
+                code: "FAILURE", message: "Order not found."
+            });
+        } else {
+            return res.status(200).json({
+                code: "SUCCESS", message: "Order Updated.", updatedOrder
+            });
+        }
 
     } catch (error) {
         console.log(error);
