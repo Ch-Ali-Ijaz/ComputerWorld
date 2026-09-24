@@ -13,12 +13,11 @@ export async function onlineOrder(userId, orderInfo) {
     const customerId = userId;
     const orderStatus = "In-Progress";
     const orderedItems = await buildItems(orderInfo.cartItems);
+    const discount = 0;
     const itemsAfterDiscount = await applyDiscountByCode(orderInfo.discountCode, userId, orderedItems);
     const paymentStatus = "Due";
     const deliveryFee = 1000;
-    const amounts = orderCalculations.calculateAmounts(orderedItems, deliveryFee);
-
-    isOrderInfoValid(orderInfo);
+    const amounts = orderCalculations.calculateAmounts(orderedItems, discount, deliveryFee);
 
     const newOrder = new Order({
         orderId: orderId,
@@ -42,30 +41,26 @@ export async function onlineOrder(userId, orderInfo) {
 export async function walkInOrder(user, orderInfo) {
 
     const orderId = orderUtils.setOrderId();
-    const orderType = orderUtils.setOrderType(user.userRole);
-    const userIds = orderResolvers.resolveOrderActors(user.userId, orderType);
-    const orderStatus = orderResolvers.resolveOrderStatus(orderType);
-    const orderedItems = buildItems(orderInfo.cartItems);
-    const paymentStatus = orderUtils.setPaymentStatus(orderType);
-    const deliveryFee = orderCalculations.calculateDeliveryFee(orderType);
-    const amounts = orderCalculations.calculateAmounts(orderedItems, deliveryFee);
-
-    isOrderInfoValid(orderInfo);
-
+    const orderType = "Walk-In"
+    const orderStatus = "Completed";
+    const createdBy = user.userId;
+    const orderedItems = await buildItems(orderInfo.cartItems);
+    const paymentStatus = "Paid";
+    const deliveryFee = 0;
+    const amounts = orderCalculations.calculateAmounts(orderedItems, orderInfo.discount, deliveryFee);
+    
     const newOrder = new Order({
         orderId: orderId,
-        createdBy: userIds.createdBy,
-        customerId: userIds.customerId,
+        createdBy: createdBy,
         orderType: orderType,
         orderStatus: orderStatus,
         orderedItems: orderedItems,
         paymentMethod: orderInfo.paymentMethod,
         paymentStatus: paymentStatus,
         subTotal: amounts.subTotal,
-        discountedPrice: orderInfo.discountedPrice,
-        deliveryAddress: orderInfo.deliveryAddress,
-        totalDiscount: amounts.totalDiscount,
-        deliveryFee: deliveryFee,
+        totalDiscount: orderInfo.discount,
         payableAmount: amounts.payableAmount
     });
+
+    return await newOrder.save();
 };
