@@ -1,4 +1,4 @@
-import * as placeOrderServices from "./services/placeOrderServices.js";
+import * as placeOrderServices from "./orderServices.js";
 
 export async function placeOrder(user, orderInfo) {
 

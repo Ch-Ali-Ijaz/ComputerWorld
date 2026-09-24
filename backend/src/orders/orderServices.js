@@ -1,10 +1,17 @@
-import Order from "../orderModel.js";
-import * as orderUtils from "../orderUtils.js";
-import * as orderCalculations from "../orderCalculations.js";
-import { buildItems } from "../../services/shared/itemsBuilder.js";
-import { isOrderInfoValid } from "../orderValidators.js";
-import { applyDiscountByCode } from "../../discounts/discountWorkflows.js";
+import Order from "./orderModel.js";
+import * as orderUtils from "./orderUtils.js";
+import * as orderCalculations from "./orderCalculations.js";
+import { buildItems } from "../services/shared/itemsBuilder.js";
+import { isOrderInfoValid } from "./orderValidators.js";
+import { applyDiscountByCode } from "../discounts/discountWorkflows.js";
 
+export async function getOrders(queries) {
+
+    const filter = orderUtils.setOrderFilter(queries);
+    return await Order.find(filter);
+};
+
+// -----------------------------------------------------------------------------------------------------
 export async function onlineOrder(userId, orderInfo) {
 
     isOrderInfoValid(orderInfo);
