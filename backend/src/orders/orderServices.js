@@ -71,3 +71,9 @@ export async function walkInOrder(user, orderInfo) {
 
     return await newOrder.save();
 };
+
+// -----------------------------------------------------------------------------------------------------
+export async function deleteOrder(objectId) {
+
+    return await Order.findByIdAndDelete(objectId);
+};

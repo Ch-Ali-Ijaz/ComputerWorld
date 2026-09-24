@@ -1,5 +1,6 @@
 import * as orderWorkflow from "./orderWorkflow.js";
 import * as orderServices from "./orderServices.js";
+import { deleteDealer } from "../services/dealerServices.js";
 
 export async function getOrders(req, res) {
     try {
@@ -38,7 +39,7 @@ export async function placeOrder(req, res) {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            code: "FAILURE", message: "Internal Server Error."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -49,7 +50,7 @@ export async function updateOrder(req, res) {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            code: "FAILURE", message: "Internal Server Error."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
@@ -57,10 +58,23 @@ export async function updateOrder(req, res) {
 export async function deleteOrder(req, res) {
     try {
 
+        const objectId = req.params.id;
+        const deletedOrder = await orderServices.deleteOrder(objectId);
+
+        if(!deletedOrder) {
+            return res.status(404).json({
+                code: "FAILURE", message: "Deletion Failure."
+            });
+        } else{
+            return res.status(200).json({
+                code: "SUCCESS", message: "Deletion Successfull.", deletedOrder: deletedOrder
+            });
+        }
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            code: "FAILURE", message: "Internal Server Error."
+            code: "ERROR", message: "Internal Server Error."
         });
     }
 };
