@@ -1,4 +1,4 @@
-import * as orderServices from "../services/orderServices.js";
+import * as orderWorkflow from "./orderWorkflow.js";
 
 export async function getOrders(req, res) {
     try {
@@ -13,10 +13,10 @@ export async function getOrders(req, res) {
 
 export async function placeOrder(req, res) {
     try {
-        const userId = req.user.userId;
+        const user = req.user;
         const orderInfo = req.body;
 
-        const order = await orderServices.placeOrder(userId, orderInfo);
+        const order = await orderWorkflow.placeOrder(user, orderInfo);
 
         return res.status(200).json({
             code: "SUCCESS", message: "Order Placed Successfully.", order: order

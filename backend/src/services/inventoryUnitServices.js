@@ -28,10 +28,10 @@ export async function getUnitIds(queries) {
     try {
         const filter = setFilterObject(queries);
         const units = await InventoryUnit.find(filter);
-        if(units.length === 0){
+        if (units.length === 0) {
             throw new Error("No such unit found.");
         }
-        
+
         const unitIds = units.map(unit => unit._id);
         return unitIds;
 
@@ -42,10 +42,10 @@ export async function getUnitIds(queries) {
 };
 
 // -------------------------------------------------------------------------
-export async function getAvailableUnits(variantId, quantity) {
+export async function getAvailableUnitIds(variantId, quantity) {
     try {
         const filter = setFilterObject({ variantId, currentStatus: "Available" });
-        const availableUnits = await InventoryUnit.find(filter).select("_id").limit(quantity);
+        const availableUnits = await InventoryUnit.find(filter).limit(quantity);
 
         if (availableUnits.length < quantity) {
             throw new Error(
@@ -53,7 +53,12 @@ export async function getAvailableUnits(variantId, quantity) {
             );
         }
 
-        return availableUnits;
+        const unitIds = [];
+        for (const unit of availableUnits) {
+            unitIds.push(unit._id);
+        }
+
+        return unitIds;
 
     } catch (error) {
         console.log("Error in getAllUnits service: ", error);
