@@ -14,10 +14,8 @@ import * as inventoryUnitController from "../controllers/inventoryUnitController
 import * as cartController from "../controllers/cartController.js";
 import * as discountController from "../discounts/discountController.js";
 import * as orderController from "../orders/orderController.js";
+import * as reviewController from "../reviews/reviewController.js";
 
-// import { viewMyProfile, updateMyProfile } from "../controllers/profileController.js";
-// import {getAllDeliveries, getDelivery, createDelivery, updateDelivery, deleteDelivery} from "../controllers/deliveryController.js";
-// import {getAllReviews, getReview, createReview, updateReview, deleteReview, getAllReReview} from "../controllers/reviewController.js";
 
 const router = express.Router();
 router.use(authenticate, authorizeToLogin('admin'));
@@ -87,22 +85,10 @@ router.post("/orders", orderController.placeOrder);
 router.put("/orders/:id", orderController.updateOrder);
 router.delete("/orders/:id", orderController.deleteOrder);
 
-// // Delivery related routes
-// router.get("/delivery", getAllDeliveries);
-// router.get("/delivery/:id", getDelivery);
-// router.post("/delivery", createDelivery);
-// router.put("/delivery/:id", updateDelivery);
-// router.get("/delivery/:id", deleteDelivery);
-
-// // Review related routes
-// router.get("/reviews", getAllReviews);
-// router.get("/reviews/:id", getReview);
-// router.post("/reviews", createReview);
-// router.put("/reviews/:id", updateReview);
-// router.get("/reviews/:id", deleteReview);
-
-// // Profile related routes
-// router.get("/profile", viewMyProfile);
-// router.put("/profile/:id", updateMyProfile);
+// Review related routes
+router.get("/reviews", reviewController.getReviews);
+router.post("/reviews/:id", reviewController.createReview);
+router.put("/reviews/:id", reviewController.updateReview);
+router.delete("/reviews/:id", reviewController.deleteReview);
 
 export default router
