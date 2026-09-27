@@ -5,16 +5,16 @@ import {authenticate} from "../middleware/authMiddleware.js";
 import {authorizeToLogin} from "../middleware/authorizeMiddleware.js";
 
 // Controllers
-import * as userController from "../controllers/userController.js";
-import * as dealerController from "../controllers/dealerController.js";
-import * as productController from "../controllers/productController.js";
-import * as variantController from "../controllers/variantController.js";
-import * as defectController from "../controllers/defectController.js";
-import * as inventoryUnitController from "../controllers/inventoryUnitController.js";
-import * as cartController from "../controllers/cartController.js";
-import * as discountController from "../discounts/discountController.js";
-import * as orderController from "../orders/orderController.js";
-import * as reviewController from "../reviews/reviewController.js";
+import * as userController from "../userLogic/userController.js";
+import * as dealerController from "../dealerLogic/dealerController.js";
+import * as productController from "../productLogic/productController.js";
+import * as variantController from "../variantLogic/variantController.js";
+import * as defectController from "../defectLogic/defectController.js";
+import * as inventoryUnitController from "../inventoryUnitLogic/inventoryUnitController.js";
+import * as cartController from "../cartLogic/cartController.js";
+import * as discountController from "../discountLogic/discountController.js";
+import * as orderController from "../orderLogic/orderController.js";
+import * as reviewController from "../reviewLogic/reviewController.js";
 
 
 const router = express.Router();
