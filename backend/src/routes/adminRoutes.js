@@ -22,6 +22,7 @@ router.use(authenticate, authorizeToLogin('admin'));
 
 // User related routes
 
+router.get("/currentUser", userController.currentUser);
 router.get("/users", userController.getAllUsers);
 router.get("/users/:id", userController.getUser);
 router.post("/users", userController.createUser);
