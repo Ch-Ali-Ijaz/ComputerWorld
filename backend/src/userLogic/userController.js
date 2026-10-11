@@ -22,6 +22,25 @@ export async function getAllUsers(req, res) {
 }
 
 // --------------------------------------------------------------------------
+export async function currentUser(req, res) {
+    try {
+        const id = req.user.userId;
+        const user = await userServices.getUser(id);
+
+        if (!user) {
+            return res.status(404).json({ code: "NOT_FOUND", message: "User not Found." })
+        }
+        else {
+            return res.status(200).json({ code: "SUCCESS", role: user.userRole });
+        }
+
+    } catch (error) {
+        console.log("Error in getCustomer controller: ", error);
+        return res.status(500).json({ code: "ERROR", message: "Internal Server Error." });
+    }
+}
+
+// --------------------------------------------------------------------------
 export async function getUser(req, res) {
     try {
         const id = req.params.id;
