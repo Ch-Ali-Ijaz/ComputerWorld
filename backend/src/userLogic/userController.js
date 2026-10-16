@@ -4,8 +4,8 @@ import * as userServices from "./userServices.js"
 export async function getAllUsers(req, res) {
     try {
 
-        const filterQuery = req.query;
-        const users = await userServices.getAllUsers(filterQuery);
+        const queries = req.query;
+        const users = await userServices.getAllUsers(queries);
 
         if (users.length === 0 || users[0] === null) {
             return res.status(404).json({ code: "NOT_FOUND", message: "No users found." });

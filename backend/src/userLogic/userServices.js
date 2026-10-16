@@ -1,20 +1,13 @@
 import User from "./User.js"
-import { generateUserId, filterUser, setFilterObject } from "./userUtils.js"
+import { generateUserId, setFilterObject } from "./userUtils.js"
 import { roleValidator, cnicValidator, phoneValidator } from "./userValidator.js"
 
 // -------------------------------------------------------------------------------
-export async function getAllUsers(filterQuery) {
+export async function getAllUsers(queries) {
     try {
-        let users;
+        const filter = setFilterObject(queries);
 
-        if (Object.keys(filterQuery).length === 0) {
-            users = await User.find();
-        }
-        else {
-            users = await filterUser(filterQuery.searchBy, filterQuery.value);
-        }
-
-        return users;
+        return await User.find(filter);
 
     } catch (error) {
         console.log("Error in getAllCustomers service: ", error);

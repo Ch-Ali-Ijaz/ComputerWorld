@@ -25,5 +25,5 @@ const dealerSchema = new mongoose.Schema({
     {timestamps: true}
 );
 
-const Dealer = new mongoose.model("Dealer", dealerSchema);
+const Dealer = mongoose.model("Dealer", dealerSchema);
 export default Dealer

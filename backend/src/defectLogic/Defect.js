@@ -2,18 +2,18 @@ import mongoose from "mongoose";
 
 const defectSchema = new mongoose.Schema({
 
-    creator_Id: {
-        type: String,
+    creatorId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "User"
     },
-    updator_Id: {
-        type: String,
+    updatorId: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
 
-    unit_Id: {
-        type: String,
+    unitId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "InventoryUnit"
     },
@@ -39,5 +39,5 @@ const defectSchema = new mongoose.Schema({
     {timestamps: true}
 );
 
-const Defect = new mongoose.model("Defect", defectSchema);
+const Defect = mongoose.model("Defect", defectSchema);
 export default Defect

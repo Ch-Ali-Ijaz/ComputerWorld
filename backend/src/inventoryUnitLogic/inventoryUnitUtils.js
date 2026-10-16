@@ -72,7 +72,7 @@ export function setFilterObject(queries) {
     }
     if (queries.minSoldPrice || queries.maxSoldPrice) {
         filter.soldPrice = {};
-
+        
         if (queries.minSoldPrice) {
             filter.soldPrice.$gte = Number(queries.minSoldPrice);
         }
@@ -80,7 +80,27 @@ export function setFilterObject(queries) {
             filter.soldPrice.$lte = Number(queries.maxSoldPrice);
         }
     }
+    if (queries.createdAtSD || queries.createdAtED) {
+        filter.createdAt = {};
 
+        if (queries.createdAtSD) {
+            filter.createdAt.$gte = new Date(queries.createdAtSD);
+        }
+        if (queries.createdAtED) {
+            filter.createdAt.$lte = new Date(queries.createdAtED);
+        }
+    }
+    if (queries.updatedAtSD || queries.updatedAtED) {
+        filter.updatedAt = {};
+
+        if (queries.updatedAtSD) {
+            filter.updatedAt.$gte = new Date(queries.updatedAtSD);
+        }
+        if (queries.updatedAtED) {
+            filter.updatedAt.$lte = new Date(queries.updatedAtED);
+        }
+    }
+    
     return filter;
 };
 

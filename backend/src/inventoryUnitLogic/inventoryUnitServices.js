@@ -10,9 +10,29 @@ export async function getUnits(queries) {
         const filter = unitUtils.setFilterObject(queries);
         return await InventoryUnit.find(filter).populate(
             {
-                path: "variant_Id",
+                path: "variantId",
                 populate: {
-                    path: "product_Id"
+                    path: "productId"
+                }
+            }
+        );
+
+    } catch (error) {
+        console.log("Error in getAllUnits service: ", error);
+        throw new Error(error);
+    }
+};
+
+// -------------------------------------------------------------------------
+export async function getInventory() {
+    try {
+        return await InventoryUnit.find({
+            currentStatus: { $ne: "Sold" }
+        }).populate(
+            {
+                path: "variantId",
+                populate: {
+                    path: "productId"
                 }
             }
         );
@@ -78,8 +98,8 @@ export async function createUnit(quantity, unitInfo) {
         for (let i = 0; i < quantity; i++) {
             units[i] = new InventoryUnit({
                 unitId: unitIds[i],
-                dealer_Id: unitInfo.dealerId,
-                variant_Id: unitInfo.variantId,
+                dealerId: unitInfo.dealerId,
+                variantId: unitInfo.variantId,
                 dealerWarranty: dealerWarranty,
                 currentStatus: "Due-Inspection"
             });
@@ -109,9 +129,9 @@ export async function updateUnits(userRole, queries, newInfo) {
 
         const unit = {
             unitId: newInfo.unitId,
-            variant_Id: newInfo.variantId,
-            dealer_Id: newInfo.dealerId,
-            defect_Id: newInfo.defectId,
+            variantId: newInfo.variantId,
+            dealerId: newInfo.dealerId,
+            defectId: newInfo.defectId,
             currentStatus: newInfo.currentStatus,
             customerWarranty: newInfo.customerWarranty,
             dealerWarranty: dealerWarranty,

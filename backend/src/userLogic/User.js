@@ -40,6 +40,12 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
+    userStatus: {
+        type: String,
+        enum: ["Active", "In-Active"],
+        default: "Active",
+    },
+
     userAddress: {
         type: String
     },
