@@ -5,6 +5,7 @@ import {authenticate} from "../middleware/authMiddleware.js";
 import {authorizeToLogin} from "../middleware/authorizeMiddleware.js";
 
 // Controllers
+import * as dashboardController from "../dashboards/admin/adminDashboardController.js";
 import * as userController from "../userLogic/userController.js";
 import * as dealerController from "../dealerLogic/dealerController.js";
 import * as productController from "../productLogic/productController.js";
@@ -19,6 +20,9 @@ import * as reviewController from "../reviewLogic/reviewController.js";
 
 const router = express.Router();
 router.use(authenticate, authorizeToLogin('admin'));
+
+// Admin Dashboard
+router.get("/dashboard", dashboardController.dashBoardData);
 
 // User related routes
 

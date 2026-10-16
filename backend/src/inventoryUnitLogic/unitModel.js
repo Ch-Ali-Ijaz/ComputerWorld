@@ -7,19 +7,19 @@ const inventoryUnitSchema = new mongoose.Schema({
         required: true
     },
 
-    variant_Id: {
+    variantId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Variant"
     },
 
-    dealer_Id: {
+    dealerId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Dealer"
     },
 
-    defect_Id: {
+    defectId: {
         type: mongoose.Schema.Types.ObjectId, 
         default: null,
         ref: "Defect"
@@ -49,12 +49,14 @@ const inventoryUnitSchema = new mongoose.Schema({
     },
 
     purchaseCost: {
-        type: Number
+        type: Number,
+        default: 0
     },
     
 
     soldPrice: {
-        type: Number
+        type: Number,
+        default: 0
     }
 
 },

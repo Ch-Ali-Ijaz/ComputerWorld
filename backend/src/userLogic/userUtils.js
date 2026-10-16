@@ -1,7 +1,4 @@
 import { customAlphabet } from "nanoid";
-
-import User from "./User.js";
-
 const nanoid = customAlphabet("1234567890ABCDEF", 8);
 
 export function generateUserId(role) {
@@ -20,58 +17,6 @@ export function generateUserId(role) {
             throw new Error("Invalid role provided");
     }
     return prefix + nanoid();
-}
-
-export function validateRole(role) {
-
-    const allowedRoles = ["employee", "customer"];
-    if (!allowedRoles.includes(role)) {
-        return false;
-    }
-    else {
-        return true;
-    }
-};
-
-export async function filterUser(searchBy, value) {
-    try{
-        let user = [];
-
-        switch (searchBy) {
-            case "id":
-                user[0] = await User.findOne({ userId: value });
-                break;
-    
-            case "email":
-                user[0] = await User.findOne({ userEmail: value });
-                break;
-    
-            case "name":
-                user = await User.find({
-                    userName: { $regex: value, $options: "i" }
-                });
-                break;
-    
-            case "role":
-                user = await User.find({ userRole: value });
-                break;
-    
-            case "cnic":
-                user = await User.findOne({ userCNIC: value });
-                break;
-    
-            default:
-                throw new Error("Invalid Search."); 
-        }
-
-    
-        return user;
-    }
-    catch (error) {
-        console.log("Error in filterUser function: ", error);
-        throw new Error(error);
-    }
-
 };
 
 // ----------------------------------------------------------------
@@ -99,8 +44,11 @@ export function setFilterObject(queries) {
     if(queries.role){
         filter.userRole = queries.role;
     }
-    if(queries.CNIC) {
-        filter.userCNIC = queries.CNIC;
+    if(queries.status){
+        filter.userStatus = queries.status;
+    }
+    if(queries.cnic) {
+        filter.userCNIC = queries.cnic;
     }
     if(queries.contact){
         filter.userContact = queries.contact;

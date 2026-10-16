@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const variantSchema = new mongoose.Schema({
-    product_Id: {
-        type: String,
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Product"
     },
